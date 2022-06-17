@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import threading
 
 
-
 load_dotenv()
 client = MongoClient('localhost:27017',
                      username=os.getenv('mongo_user'),
@@ -20,7 +19,7 @@ db = client['crawler_data']
 mycol = db["raw_data"]
 
 
-def crawler(region,mycol):
+def crawler(region, mycol):
     from datetime import date
     import time
     driver = webdriver.Chrome()
@@ -72,7 +71,10 @@ def crawler(region,mycol):
             else:
                 driver.close()
         except:
-            driver.refresh()
+            print(i)
+            for x in range(3):
+                driver.refresh()
+                time.sleep(3)
             price_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
@@ -113,7 +115,7 @@ def crawler(region,mycol):
     dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"591","region":city}
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     today = date.today()
-    dict_to_mongo = {"data":dict,"create_time":time,"create_date":today}
+    dict_to_mongo = {"data":dict,"create_time":time,"create_date":str(today)}
     mycol.insert_one(dict_to_mongo)
 
 # def do_sth(driver, class_name):
@@ -129,3 +131,4 @@ t1.start()
 t2.start()
 t1.join()
 t2.join()
+

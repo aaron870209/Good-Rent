@@ -110,7 +110,7 @@ def crawler(region,mycol):
     today = date.today()
     dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"樂屋網","region":city}
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-    dict_to_mongo = {"data":dict, "create_time":time, "create_date":today}
+    dict_to_mongo = {"data":dict, "create_time":time, "create_date":str(today)}
     mycol.insert_one(dict_to_mongo)
 
 
