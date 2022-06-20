@@ -6,20 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import threading
+from mongo import mongo
 
 
-load_dotenv()
-client = MongoClient('localhost:27017',
-                     username=os.getenv('mongo_user'),
-                     password=os.getenv('mongo_password'),
-                     # authSource='stylish_data_engineering',
-                     # authMechanism='SCRAM-SHA-1'
-                     )
-db = client['crawler_data']
-mycol = db["raw_data"]
-
-
-def crawler(region, mycol):
+def crawler(region):
     from datetime import date
     import time
     driver = webdriver.Chrome()
@@ -116,7 +106,7 @@ def crawler(region, mycol):
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     today = date.today()
     dict_to_mongo = {"data":dict,"create_time":time,"create_date":str(today)}
-    mycol.insert_one(dict_to_mongo)
+    mongo.insert_data_to_mongo(dict_to_mongo)
 
 # def do_sth(driver, class_name):
 #     total_house = WebDriverWait(driver,10).until(
@@ -125,10 +115,9 @@ def crawler(region, mycol):
 #     return total_house
 
 
-t1 = threading.Thread(target=crawler, args=(1, mycol))
-t2 = threading.Thread(target=crawler, args=(3, mycol))
+t1 = threading.Thread(target=crawler, args=(1, ))
+t2 = threading.Thread(target=crawler, args=(3, ))
 t1.start()
 t2.start()
 t1.join()
 t2.join()
-

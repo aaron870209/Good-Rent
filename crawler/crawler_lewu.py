@@ -8,25 +8,14 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import re
 import threading
+from mongo import mongo
 
 
-
-
-load_dotenv()
-client = MongoClient('localhost:27017',
-                     username=os.getenv('mongo_user'),
-                     password=os.getenv('mongo_password'),
-                     # authSource='stylish_data_engineering',
-                     # authMechanism='SCRAM-SHA-1'
-                     )
-print(os.getenv('mongo_user'))
-db = client['crawler_data']
-mycol = db["raw_data"]
 Taipei = "eJyrVkrOLKlUsopWMlCK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5AwQF6wNKFJanJqcn5IKEjIHqrcAYksgNjQAEsZKsbUArxsbyQ"
 New_Taipei = "eJyrVkrOLKlUsopWMlKK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5AwQF6wNKFJanJqcn5IKEjIHqrcAYksgNjQAEsZKsbUAr8kbyw"
 
 
-def crawler(region,mycol):
+def crawler(region):
     from datetime import date
     import time
     driver = webdriver.Chrome()
@@ -49,8 +38,12 @@ def crawler(region,mycol):
             title_1 = [x.find_element(By.CLASS_NAME,"obj-title").find_element(By.TAG_NAME,"a").text for x in product_list]
             print("title=",title_1)
             title.extend(title_1)
-            item_detail_1 = [x.find_element(By.CLASS_NAME,"obj-data.clearfix").find_element(By.CLASS_NAME,"clearfix").text for x in product_list]
-            print("detail=",item_detail_1)
+            item_detail_1 = []
+            for i in product_list:
+                detail_list = i.find_element(By.CLASS_NAME, "obj-data.clearfix").find_elements(By.CLASS_NAME,
+                                                                                               "clearfix")
+                detail = detail_list[0].text + "/" + detail_list[1].text
+                item_detail_1.append(detail)
             item_detail.extend(item_detail_1)
             address_1 = [x.find_element(By.CLASS_NAME,"obj-title").find_element(By.TAG_NAME,"p").text for x in product_list]
             print("address=",address_1)
@@ -62,7 +55,7 @@ def crawler(region,mycol):
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{paging+2}]/a").click()
             elif paging > (last_page-3) and paging <= last_page:
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{9-(last_page-paging)}]/a").click()
-            elif paging <= last_page:
+            elif paging < last_page:
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
             else:
                 driver.close()
@@ -81,9 +74,12 @@ def crawler(region,mycol):
                      product_list]
             print("title=", title_1)
             title.extend(title_1)
-            item_detail_1 = [
-                x.find_element(By.CLASS_NAME, "obj-data.clearfix").find_element(By.CLASS_NAME, "clearfix").text for x in
-                product_list]
+            item_detail_1 = []
+            for i in product_list:
+                detail_list = i.find_element(By.CLASS_NAME, "obj-data.clearfix").find_elements(By.CLASS_NAME,
+                                                                                               "clearfix")
+                detail = detail_list[0].text + "/" + detail_list[1].text
+                item_detail_1.append(detail)
             print("detail=", item_detail_1)
             item_detail.extend(item_detail_1)
             address_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "p").text for x in
@@ -99,7 +95,7 @@ def crawler(region,mycol):
             elif paging > (last_page - 3) and paging <= last_page:
                 driver.find_element(By.XPATH,
                                     f"/html/body/div[8]/div/div[1]/nav/ul/li[{9 - (last_page - paging)}]/a").click()
-            elif paging <= last_page:
+            elif paging < last_page:
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
             else:
                 driver.close()
@@ -111,11 +107,11 @@ def crawler(region,mycol):
     dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"樂屋網","region":city}
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     dict_to_mongo = {"data":dict, "create_time":time, "create_date":str(today)}
-    mycol.insert_one(dict_to_mongo)
+    mongo.insert_data_to_mongo(dict_to_mongo)
 
 
-t1 = threading.Thread(target=crawler, args=(Taipei, mycol))
-t2 = threading.Thread(target=crawler, args=(New_Taipei, mycol))
+t1 = threading.Thread(target=crawler, args=(Taipei,))
+t2 = threading.Thread(target=crawler, args=(New_Taipei,))
 t1.start()
 t2.start()
 t1.join()
