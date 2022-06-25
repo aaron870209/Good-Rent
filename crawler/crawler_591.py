@@ -1,10 +1,7 @@
-import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pymongo import MongoClient
-from dotenv import load_dotenv
 import threading
 from mongo import mongo
 
@@ -52,7 +49,7 @@ def crawler(region):
             title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
             item_detail.extend(item_detail_1)
-            address_1 = [x.find_element(By.TAG_NAME,"span").text for x in address_list]
+            address_1 = [x.find_element(By.TAG_NAME,"span").text.replace("-","") for x in address_list]
             address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME,"img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
@@ -90,7 +87,7 @@ def crawler(region):
             title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
             item_detail.extend(item_detail_1)
-            address_1 = [x.find_element(By.TAG_NAME, "span").text for x in address_list]
+            address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-","") for x in address_list]
             address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
@@ -107,6 +104,7 @@ def crawler(region):
     today = date.today()
     dict_to_mongo = {"data":dict,"create_time":time,"create_date":str(today)}
     mongo.insert_data_to_mongo(dict_to_mongo)
+
 
 # def do_sth(driver, class_name):
 #     total_house = WebDriverWait(driver,10).until(

@@ -47,7 +47,7 @@ def data_cleaning():
                 data_dict = {"title": title,"price":price,"address":address,"img":img,
                              "type":type,"size":size,"floor":floor,"key":key,"city":city}
                 try:
-                    MySQL.insert_data_to_SQL(data_dict)
+                    MySQL.insert_house_data_to_SQL(data_dict)
                 except IntegrityError:
                     print(title,city,address)
                     pass
