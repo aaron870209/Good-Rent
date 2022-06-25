@@ -1,0 +1,460 @@
+#map{
+    margin-left:30px;
+    margin-top:30px;
+    height:480px;
+    width:800px;
+    border: 4mm ridge rgba(211, 220, 50, .5);
+}
+.logo_img{
+    margin-top:20px;
+    margin-left:30px;
+    float:left;
+}
+.logo_name{
+    float:left;
+    margin-left:15px;
+    margin-top:2px;
+}
+.downer_line{
+    clear:both;
+    height:5px;
+    background:gray;
+}
+#position{
+    position:absolute;
+    margin-left:30px;
+    margin-top:10px;
+}
+#Taipei{
+    position:absolute;
+    margin-left:150px;
+    margin-top:10px;
+}
+#NewTaipei{
+    position:absolute;
+    margin-left:280px;
+    margin-top:10px;
+}
+.position1{
+    position:absolute;
+    margin-left:168px;
+    margin-top:68px;
+}
+.position1_checkbox{
+    position:absolute;
+    margin-left:150px;
+    margin-top:75px;
+}
+.position2{
+    position:absolute;
+    margin-left:250px;
+    margin-top:68px;
+}
+.position2_checkbox{
+    position:absolute;
+    margin-left:230px;
+    margin-top:75px;
+}
+.position3{
+    position:absolute;
+    margin-left:330px;
+    margin-top:68px;
+}
+.position3_checkbox{
+    position:absolute;
+    margin-left:310px;
+    margin-top:75px;
+}
+.position4{
+    position:absolute;
+    margin-left:410px;
+    margin-top:68px;
+}
+.position4_checkbox{
+    position:absolute;
+    margin-left:390px;
+    margin-top:75px;
+}
+.position5{
+    position:absolute;
+    margin-left:490px;
+    margin-top:68px;
+}
+.position5_checkbox{
+    position:absolute;
+    margin-left:470px;
+    margin-top:75px;
+}
+.position6{
+    position:absolute;
+    margin-left:570px;
+    margin-top:68px;
+}
+.position6_checkbox{
+    position:absolute;
+    margin-left:550px;
+    margin-top:75px;
+}
+.position7{
+    position:absolute;
+    margin-left:650px;
+    margin-top:68px;
+}
+.position7_checkbox{
+    position:absolute;
+    margin-left:630px;
+    margin-top:75px;
+}
+.position8{
+    position:absolute;
+    margin-left:730px;
+    margin-top:68px;
+}
+.position8_checkbox{
+    position:absolute;
+    margin-left:710px;
+    margin-top:75px;
+}
+.position9{
+    position:absolute;
+    margin-left:810px;
+    margin-top:68px;
+}
+.position9_checkbox{
+    position:absolute;
+    margin-left:790px;
+    margin-top:75px;
+}
+.position10{
+    position:absolute;
+    margin-left:890px;
+    margin-top:68px;
+}
+.position10_checkbox{
+    position:absolute;
+    margin-left:870px;
+    margin-top:75px;
+}
+.position11{
+    position:absolute;
+    margin-left:970px;
+    margin-top:68px;
+}
+.position11_checkbox{
+    position:absolute;
+    margin-left:950px;
+    margin-top:75px;
+}
+.position12{
+    position:absolute;
+    margin-left:1050px;
+    margin-top:68px;
+}
+.position12_checkbox{
+    position:absolute;
+    margin-left:1030px;
+    margin-top:75px;
+}
+.position13{
+    position:absolute;
+    margin-left:1130px;
+    margin-top:68px;
+}
+.position13_checkbox{
+    position:absolute;
+    margin-left:1110px;
+    margin-top:75px;
+}
+.position14{
+    position:absolute;
+    margin-left:1210px;
+    margin-top:68px;
+}
+.position14_checkbox{
+    position:absolute;
+    margin-left:1190px;
+    margin-top:75px;
+}
+.position15{
+    position:absolute;
+    margin-left:168px;
+    margin-top:115px;
+}
+.position15_checkbox{
+    position:absolute;
+    margin-left:150px;
+    margin-top:123px;
+}
+.position16{
+    position:absolute;
+    margin-left:250px;
+    margin-top:115px;
+}
+.position16_checkbox{
+    position:absolute;
+    margin-left:230px;
+    margin-top:123px;
+}
+.position17{
+    position:absolute;
+    margin-left:330px;
+    margin-top:115px;
+}
+.position17_checkbox{
+    position:absolute;
+    margin-left:310px;
+    margin-top:123px;
+}
+.position18{
+    position:absolute;
+    margin-left:410px;
+    margin-top:115px;
+}
+.position18_checkbox{
+    position:absolute;
+    margin-left:390px;
+    margin-top:123px;
+}
+.position19{
+    position:absolute;
+    margin-left:490px;
+    margin-top:115px;
+}
+.position19_checkbox{
+    position:absolute;
+    margin-left:470px;
+    margin-top:123px;
+}
+.position20{
+    position:absolute;
+    margin-left:570px;
+    margin-top:115px;
+}
+.position20_checkbox{
+    position:absolute;
+    margin-left:550px;
+    margin-top:123px;
+}
+.position21{
+    position:absolute;
+    margin-left:650px;
+    margin-top:115px;
+}
+.position21_checkbox{
+    position:absolute;
+    margin-left:630px;
+    margin-top:123px;
+}
+.position22{
+    position:absolute;
+    margin-left:730px;
+    margin-top:115px;
+}
+.position22_checkbox{
+    position:absolute;
+    margin-left:710px;
+    margin-top:123px;
+}
+.position23{
+    position:absolute;
+    margin-left:810px;
+    margin-top:115px;
+}
+.position23_checkbox{
+    position:absolute;
+    margin-left:790px;
+    margin-top:123px;
+}
+.position24{
+    position:absolute;
+    margin-left:890px;
+    margin-top:115px;
+}
+.position24_checkbox{
+    position:absolute;
+    margin-left:870px;
+    margin-top:123px;
+}
+.position25{
+    position:absolute;
+    margin-left:970px;
+    margin-top:115px;
+}
+.position25_checkbox{
+    position:absolute;
+    margin-left:950px;
+    margin-top:123px;
+}
+.position26{
+    position:absolute;
+    margin-left:1050px;
+    margin-top:115px;
+}
+.position26_checkbox{
+    position:absolute;
+    margin-left:1030px;
+    margin-top:123px;
+}
+.position27{
+    position:absolute;
+    margin-left:1130px;
+    margin-top:115px;
+}
+.position27_checkbox{
+    position:absolute;
+    margin-left:1110px;
+    margin-top:123px;
+}
+.position28{
+    position:absolute;
+    margin-left:1210px;
+    margin-top:115px;
+}
+.position28_checkbox{
+    position:absolute;
+    margin-left:1190px;
+    margin-top:123px;
+}
+.position29{
+    position:absolute;
+    margin-left:1290px;
+    margin-top:115px;
+}
+.position29_checkbox{
+    position:absolute;
+    margin-left:1270px;
+    margin-top:123px;
+}
+#type{
+    position:absolute;
+    margin-left:30px;
+    margin-top:150px;
+}
+.type1{
+    position:absolute;
+    margin-left:168px;
+    margin-top:170px;
+}
+.type1_checkbox{
+    position:absolute;
+    margin-left:150px;
+    margin-top:177px;
+}
+.type2{
+    position:absolute;
+    margin-left:300px;
+    margin-top:170px;
+}
+.type2_checkbox{
+    position:absolute;
+    margin-left:280px;
+    margin-top:177px;
+}
+.type3{
+    position:absolute;
+    margin-left:430px;
+    margin-top:170px;
+}
+.type3_checkbox{
+    position:absolute;
+    margin-left:410px;
+    margin-top:177px;
+}
+.type4{
+    position:absolute;
+    margin-left:560px;
+    margin-top:170px;
+}
+.type4_checkbox{
+    position:absolute;
+    margin-left:540px;
+    margin-top:177px;
+}
+#rent{
+    position:absolute;
+    margin-left:30px;
+    margin-top:215px;
+}
+.rent1{
+    position:absolute;
+    margin-left:168px;
+    margin-top:232px;
+}
+.rent1_checkbox{
+    position:absolute;
+    margin-left:150px;
+    margin-top:240px;
+}
+.rent2{
+    position:absolute;
+    margin-left:310px;
+    margin-top:232px;
+}
+.rent2_checkbox{
+    position:absolute;
+    margin-left:290px;
+    margin-top:240px;
+}
+.rent3{
+    position:absolute;
+    margin-left:490px;
+    margin-top:232px;
+}
+.rent3_checkbox{
+    position:absolute;
+    margin-left:470px;
+    margin-top:240px;
+}
+.rent4{
+    position:absolute;
+    margin-left:680px;
+    margin-top:232px;
+}
+.rent4_checkbox{
+    position:absolute;
+    margin-left:660px;
+    margin-top:240px;
+}
+.rent5{
+    position:absolute;
+    margin-left:880px;
+    margin-top:232px;
+}
+.rent5_checkbox{
+    position:absolute;
+    margin-left:860px;
+    margin-top:240px;
+}
+.btn-dark:hover {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: black;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.button{
+    position:absolute;
+    margin-top:330px;
+    margin-left:45%;
+}
+
+a{
+    text-decoration:none;
+}
