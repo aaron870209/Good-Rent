@@ -2,14 +2,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 import threading
+from webdriver_manager.chrome import ChromeDriverManager
 from mongo import mongo
 
 
 def crawler(region):
     from datetime import date
     import time
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
     driver.get(f"https://rent.591.com.tw/?region={region}")
     total_house = WebDriverWait(driver,10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "switch-amount"))
@@ -22,12 +26,15 @@ def crawler(region):
     item_detail = []
     address = []
     img = []
+    tag = []
     for i in range(1, last_page+1):
         try:
             price_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
-
+            tag_list = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags"))
+            )
             title_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME,"item-title"))
             )
@@ -45,6 +52,8 @@ def crawler(region):
             ).find_elements(By.CLASS_NAME,"carousel-list")
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
+            tag_1 = [x.text for x in tag_list]
+            tag.extend(tag_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
@@ -65,7 +74,8 @@ def crawler(region):
             price_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
-
+            tag_list = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags")))
             title_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-title"))
             )
@@ -85,6 +95,8 @@ def crawler(region):
             price.extend(price_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
+            tag_1 = [x.text for x in tag_list]
+            tag.extend(tag_1)
             item_detail_1 = [x.text for x in item_detail_list]
             item_detail.extend(item_detail_1)
             address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-","") for x in address_list]

@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 from dotenv import load_dotenv
@@ -18,7 +20,9 @@ New_Taipei = "eJyrVkrOLKlUsopWMlKK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5A
 def crawler(region):
     from datetime import date
     import time
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
     driver.get(f"https://www.rakuya.com.tw/search/rent_search/index?con={region}&upd=1")
     total_pages = driver.find_element(By.CLASS_NAME,"pages").text
     last_page = int(total_pages.split(' ')[3])

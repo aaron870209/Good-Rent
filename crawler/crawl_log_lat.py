@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
+from webdriver_manager.chrome import ChromeDriverManager
+from fake_useragent import UserAgent
 from MySQL import MySQL
 import threading
 
@@ -12,8 +14,11 @@ def get_coordinate(addr, house_id):
     try:
         import time
         chrome_options = Options()
+        ua = UserAgent().random
+        # chrome_options.add_argument('--proxy-server=http://202.20.16.82:10152')
         chrome_options.add_argument('--headless')
-        browser = webdriver.Chrome(chrome_options=chrome_options)
+        chrome_options.add_argument("user-agent={}".format(ua))
+        browser = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
         browser.get("http://www.map.com.tw/")
         search = browser.find_element_by_id("searchWord")
         search.clear()
