@@ -1,3 +1,33 @@
+//Get the button:
+mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function show_bar(){
+    x = document.getElementById("menu")
+    if (x.style.display === "none"){
+        x.style.display = "block";
+    }else{
+        x.style.display = "none";
+    }
+}
+
+
 function show_Taipei() {
   var x = document.getElementById("Taipei_region");
   var y = document.getElementById("New_Taipei_region")
@@ -123,14 +153,13 @@ function search_ajax(){
     let data= search()
     console.log(data)
     var xmlhttp = new XMLHttpRequest();
-    var url = "http://127.0.0.1:3000/search";
+    var url = "/search";
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             let data = this.response
             console.log(data)
             document.getElementById('data').innerHTML = ''
             item(data["data"])
-
         };
     };
     xmlhttp.open("POST", url, true);
@@ -140,9 +169,4 @@ function search_ajax(){
         "data": data
     }));
 }
-
-
-
-
-
 

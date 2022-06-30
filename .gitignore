@@ -1,3 +1,4 @@
 .idea/
 mongo/.env
 chromedriver.exe
+MySQL/.env
