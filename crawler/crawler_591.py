@@ -30,6 +30,7 @@ def crawler(region):
     url = []
     for paging in range(1, last_page+1):
         try:
+            print(paging)
             price_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
@@ -78,16 +79,17 @@ def crawler(region):
             else:
                 driver.close()
         except:
-            print(paging)
+            print("error page on=",paging)
             for x in range(3):
                 driver.refresh()
                 time.sleep(3)
             price_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
-            url_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "vue-list-rent-item"))
+            url_position = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "switch-list-content"))
             )
+            url_list = url_position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
             tag_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags")))
             title_list = WebDriverWait(driver, 10).until(
