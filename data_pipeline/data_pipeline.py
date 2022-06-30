@@ -6,15 +6,18 @@ from MySQL import MySQL
 
 
 def data_cleaning():
-    date_test = "2022-06-18"
-    raw_data_list = mongo.get_data_from_mongo(date_test)
+    today = "2022-06-29"
+    raw_data_list = mongo.get_data_from_mongo(today)
     for raw_data in raw_data_list:
         for length in range(len(raw_data["data"]["title"])):
             data = raw_data["data"]
             title = data["title"][length]
             detail = data["item_detail"][length]
+            url = data["url"][length]
+            print("url=",url)
             print("detail=", detail)
             if data["source"] == "591":
+                tag = data["tag"][length]
                 type = detail.split(" ")[0]
                 if type == "整層住家":
                     size = detail.split(" ")[2]
@@ -24,6 +27,7 @@ def data_cleaning():
                     floor = detail.split(" ")[2].split("F")[0]
             else:
                 type = detail.split("/")[0]
+                tag = detail.split("/")[1].split("\n")[0]
                 size = detail.split("/")[2].split("\n")[0]
                 floor = detail.split("/")[2].split("\n")[1].split("樓")[0]
             if type == "車位" or type == "其他":
@@ -37,6 +41,7 @@ def data_cleaning():
                 print("size=", size)
                 print("floor=", floor)
                 city = data["region"]
+                print("tag=", tag)
                 print("city=",city)
                 address = data["address"][length]
                 print("address=",address)
@@ -45,12 +50,12 @@ def data_cleaning():
                 key = address+type+size+floor
                 print("key=",key)
                 data_dict = {"title": title,"price":price,"address":address,"img":img,
-                             "type":type,"size":size,"floor":floor,"key":key,"city":city}
-                try:
-                    MySQL.insert_house_data_to_SQL(data_dict)
-                except IntegrityError:
-                    print(title,city,address)
-                    pass
+                             "type":type,"size":size,"floor":floor,"key":key,"city":city,"tag":tag,"url":url,"date":today}
+                # try:
+                MySQL.insert_house_data_to_SQL(data_dict)
+                # except IntegrityError:
+                #     print(title,city,address)
+                #     pass
 
 
 data_cleaning()
