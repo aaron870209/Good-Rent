@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_file,send_from_directory
 from MySQL import MySQL
+import folium
 import json
 app = Flask(__name__)
 
@@ -29,7 +30,33 @@ def search_page():
 def detail_page():
     id = request.args.get('id')
     detail = MySQL.get_house_detail_by_id(int(id))
-    return render_template("main_page.html",detail=detail)
+    truck_position = MySQL.get_truck_house_distance(id)
+    print(truck_position)
+    truck_position_list = []
+    # for truck in truck_position:
+    #     truck_id = truck["truck_spot_id"]
+    #     position = MySQL.get_truck_lon_lat_by_id(truck_id)
+    #     longitude = position["longitude"]
+    #     latitude = position["latitude"]
+    #     list = [latitude,longitude]
+    #     truck_position_list.append(list)
+    print(truck_position_list)
+    m = folium.Map(location=[detail["latitude"],detail["longitude"]],zoom_start=16)
+    print(detail["title"])
+    iframe = folium.IFrame(f'<b>{detail["title"]}</b>')
+    popup = folium.Popup(iframe, min_width=300,max_width=300,min_height=40,max_height=80)
+    m.add_child(folium.Marker(location=[detail["latitude"],detail["longitude"]],popup=popup,
+                              icon=folium.Icon(icon='home',color='green')))
+    for truck in truck_position:
+        truck_id = truck["truck_spot_id"]
+        position = MySQL.get_truck_lon_lat_by_id(truck_id)
+        longitude = position["longitude"]
+        latitude = position["latitude"]
+        list = [latitude,longitude]
+        m.add_child(folium.Marker(location=list, opacity=0.8,
+                                icon=folium.Icon(icon='car', color='blue')))
+    m = m._repr_html_()
+    return render_template("main_page.html", detail=detail, map=m)
 
 
 if __name__ == '__main__':
