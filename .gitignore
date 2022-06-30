@@ -2,3 +2,4 @@
 mongo/.env
 chromedriver.exe
 MySQL/.env
+__pycache__/

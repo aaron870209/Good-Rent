@@ -28,7 +28,7 @@ def crawler(region):
     img = []
     tag = []
     url = []
-    for i in range(1, last_page+1):
+    for paging in range(1, last_page+1):
         try:
             price_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
@@ -49,7 +49,7 @@ def crawler(region):
             address_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME,"item-area"))
             )
-            for i in range(1,17):
+            for i in range(1,18):
                 driver.execute_script(f"window.scrollTo(0,500*{i})")
                 time.sleep(0.5)
             img_crawler_list = WebDriverWait(driver,10).until(
@@ -58,10 +58,8 @@ def crawler(region):
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
             tag_1 = [x.text for x in tag_list]
-            print("tag=",tag_1)
             tag.extend(tag_1)
             url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
-            print("url=",url_1)
             url.extend(url_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
@@ -71,12 +69,12 @@ def crawler(region):
             address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME,"img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
-            if i < last_page:
+            if paging < last_page:
                 driver.find_element(By.CLASS_NAME,'pageNext').click()
             else:
                 driver.close()
         except:
-            print(i)
+            print(paging)
             for x in range(3):
                 driver.refresh()
                 time.sleep(3)
@@ -117,7 +115,7 @@ def crawler(region):
             address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
-            if i < last_page:
+            if paging < last_page:
                 driver.find_element(By.CLASS_NAME, 'pageNext').click()
             else:
                 driver.close()
@@ -140,11 +138,11 @@ def crawler(region):
 #     return total_house
 
 
-# t1 = threading.Thread(target=crawler, args=(1, ))
-# t2 = threading.Thread(target=crawler, args=(3, ))
-# t1.start()
-# t2.start()
-# t1.join()
-# t2.join()
+t1 = threading.Thread(target=crawler, args=(1, ))
+t2 = threading.Thread(target=crawler, args=(3, ))
+t1.start()
+t2.start()
+t1.join()
+t2.join()
 
-crawler(3)
+# crawler(3)
