@@ -1,4 +1,6 @@
 import pandas as pd
+from pymysql import IntegrityError
+
 from MySQL import MySQL
 
 
@@ -7,10 +9,13 @@ def Taipei_truck_spot():
     for row in range(len(Taipei_car_move)):
         address = Taipei_car_move["地點"][row]
         arrive_time = Taipei_car_move["抵達時間"][row]
-        longitude = Taipei_car_move["經度"][row]
-        latitude = Taipei_car_move["緯度"][row]
+        longitude = Taipei_car_move["緯度"][row]
+        latitude = Taipei_car_move["經度"][row]
         dict = {"address":address, "arrive_time":arrive_time,"longitude":longitude,"latitude":latitude,"city_id":1}
-        MySQL.insert_truck_spot_to_SQL(dict)
+        try:
+            MySQL.insert_truck_spot_to_SQL(dict)
+        except IntegrityError:
+            pass
 
 
 def New_Taipei_truck_spot():
@@ -21,7 +26,10 @@ def New_Taipei_truck_spot():
         longitude = New_Taipei_car_move["longitude"][row]
         latitude = New_Taipei_car_move["latitude"][row]
         dict = {"address":address, "arrive_time":arrive_time,"longitude":longitude,"latitude":latitude,"city_id":2}
-        MySQL.insert_truck_spot_to_SQL(dict)
+        try:
+            MySQL.insert_truck_spot_to_SQL(dict)
+        except IntegrityError:
+            pass
 
 
 if __name__ == "__main__":

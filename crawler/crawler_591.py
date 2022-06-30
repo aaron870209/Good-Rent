@@ -27,6 +27,7 @@ def crawler(region):
     address = []
     img = []
     tag = []
+    url = []
     for i in range(1, last_page+1):
         try:
             price_list = WebDriverWait(driver,10).until(
@@ -35,6 +36,10 @@ def crawler(region):
             tag_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags"))
             )
+            url_list = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "vue-list-rent-item"))
+            )
+
             title_list = WebDriverWait(driver,10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME,"item-title"))
             )
@@ -53,7 +58,11 @@ def crawler(region):
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
             tag_1 = [x.text for x in tag_list]
+            print("tag=",tag_1)
             tag.extend(tag_1)
+            url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
+            print("url=",url_1)
+            url.extend(url_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
@@ -74,6 +83,9 @@ def crawler(region):
             price_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
             )
+            url_list = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "vue-list-rent-item"))
+            )
             tag_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags")))
             title_list = WebDriverWait(driver, 10).until(
@@ -93,6 +105,8 @@ def crawler(region):
             ).find_elements(By.CLASS_NAME, "carousel-list")
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
+            url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
+            url.extend(url_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
             tag_1 = [x.text for x in tag_list]
@@ -111,7 +125,8 @@ def crawler(region):
         city="臺北市"
     else:
         city = "新北市"
-    dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"591","region":city}
+    dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"591","region":city
+            ,"tag":tag,"url":url}
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     today = date.today()
     dict_to_mongo = {"data":dict,"create_time":time,"create_date":str(today)}
@@ -125,9 +140,11 @@ def crawler(region):
 #     return total_house
 
 
-t1 = threading.Thread(target=crawler, args=(1, ))
-t2 = threading.Thread(target=crawler, args=(3, ))
-t1.start()
-t2.start()
-t1.join()
-t2.join()
+# t1 = threading.Thread(target=crawler, args=(1, ))
+# t2 = threading.Thread(target=crawler, args=(3, ))
+# t1.start()
+# t2.start()
+# t1.join()
+# t2.join()
+
+crawler(3)

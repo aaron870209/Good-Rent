@@ -31,6 +31,7 @@ def crawler(region):
     item_detail = []
     address = []
     img = []
+    url = []
     for paging in range(1,last_page+1):
         try:
             product_list = WebDriverWait(driver,10).until(
@@ -39,6 +40,9 @@ def crawler(region):
             price_1 = [x.find_element(By.CLASS_NAME,"obj-price").find_element(By.TAG_NAME,"span").text for x in product_list]
             print("price=", price_1)
             price.extend(price_1)
+            url_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").get_attribute("href") for
+                     x in product_list]
+            url.extend(url_1)
             title_1 = [x.find_element(By.CLASS_NAME,"obj-title").find_element(By.TAG_NAME,"a").text for x in product_list]
             print("title=",title_1)
             title.extend(title_1)
@@ -70,6 +74,9 @@ def crawler(region):
             product_list = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "obj-item.clearfix"))
             )
+            url_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").get_attribute("href") for
+                     x in product_list]
+            url.extend(url_1)
             price_1 = [x.find_element(By.CLASS_NAME, "obj-price").find_element(By.TAG_NAME, "span").text for x in
                      product_list]
             print("price=", price_1)
@@ -108,7 +115,7 @@ def crawler(region):
     else:
         city = "新北市"
     today = date.today()
-    dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"樂屋網","region":city}
+    dict = {"title":title,"price":price,"item_detail":item_detail,"address":address,"img":img,"source":"樂屋網","region":city,"url":url}
     time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     dict_to_mongo = {"data":dict, "create_time":time, "create_date":str(today)}
     mongo.insert_data_to_mongo(dict_to_mongo)
