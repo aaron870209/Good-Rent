@@ -12,20 +12,22 @@ cursor = connection.cursor()
 
 
 def insert_house_data_to_SQL(dict):
+    connection.ping(reconnect=True)
     type_dict = {"整層住家":1,"獨立套房":2,"分租套房":3,"雅房":4}
     city_dict = {"臺北市":1,"新北市":2}
     type_id = type_dict[dict["type"]]
     city_id = city_dict[dict["city"]]
     cursor.execute(
-        "INSERT INTO `house` (`title`,`price`,`address`,`img`,`city_id`,`size`,`floor`,`type_id`,`key`) VALUEs "
-        "(%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+        "INSERT INTO `house` (`title`,`price`,`address`,`img`,`city_id`,`size`,`floor`,`type_id`,`key`,`url`,`tag`,`date`) VALUEs "
+        "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE `url`=%s,`tag`=%s,`date`=%s,`update`=1",
         (dict["title"],dict["price"],dict["address"],dict["img"],city_id,dict["size"],dict["floor"],
-         type_id,dict["key"])
+         type_id,dict["key"],dict["url"],dict["tag"],dict["date"],dict["url"],dict["tag"],dict["date"])
     )
     connection.commit()
 
 
 def insert_truck_spot_to_SQL(dict):
+    connection.ping(reconnect=True)
     cursor.execute(
         "INSERT INTO `truck_spot` (`address`,`arrive_time`,`longitude`,`latitude`,`city_id`) VALUEs"
         "(%s,%s,%s,%s,%s)",
@@ -35,6 +37,7 @@ def insert_truck_spot_to_SQL(dict):
 
 
 def update_house_log_lat(dict):
+    connection.ping(reconnect=True)
     cursor.execute(
         "UPDATE house SET longitude= %s,latitude=%s WHERE house_id = %s", (dict["log"], dict["lat"],dict["id"])
     )
@@ -42,6 +45,7 @@ def update_house_log_lat(dict):
 
 
 def get_house_id():
+    connection.ping(reconnect=True)
     cursor.execute(
         "SELECT house_id,address,city_id FROM house WHERE longitude IS NULL"
     )
@@ -53,6 +57,7 @@ def get_house_id():
 
 
 def get_all_info_from_house(paging):
+    connection.ping(reconnect=True)
     cursor.execute(
         f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id LIMIT {int(paging)*15},15"
     )
@@ -61,6 +66,7 @@ def get_all_info_from_house(paging):
 
 
 def get_house_detail_by_id(id):
+    connection.ping(reconnect=True)
     cursor.execute(
         "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE `house_id` =%s",(id)
     )
@@ -69,6 +75,7 @@ def get_house_detail_by_id(id):
 
 
 def search_house(tag):
+    connection.ping(reconnect=True)
     taipei = tag["taipei"]
     print("taipei=",taipei)
     new_taipei = tag["new_taipei"]
@@ -131,3 +138,42 @@ def search_house(tag):
     )
     data = cursor.fetchall()
     return data
+
+
+def get_house_lat_lon():
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT house_id,longitude,latitude,city_id from house WHERE longitude IS NOT NULL"
+    )
+    return cursor.fetchall()
+
+
+def get_truck_lat_lon():
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT truck_spot_id, longitude,latitude,city_id FROM truck_spot"
+    )
+    return cursor.fetchall()
+
+
+def insert_distance_truck_house(tuple_list):
+    connection.ping(reconnect=True)
+    stmt = "INSERT INTO house_truck_distance (house_id,truck_spot_id,distance) VALUES (%s,%s,%s)"
+    cursor.executemany(stmt, tuple_list)
+    connection.commit()
+
+
+def get_truck_house_distance(house_id):
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT truck_spot_id FROM house_truck_distance WHERE house_id=%s ORDER BY distance LIMIT 0,3", (house_id)
+    )
+    return cursor.fetchall()
+
+
+def get_truck_lon_lat_by_id(spot_id):
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT longitude,latitude FROM truck_spot WHERE truck_spot_id =%s",(spot_id)
+    )
+    return cursor.fetchone()
