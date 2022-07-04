@@ -149,24 +149,56 @@ function item(data){
 }
 
 
-function search_ajax(){
+function change_paging(data){
+    var page = data.page;
+    console.log(page)
+    document.getElementById("上一頁1").addEventListener("click", function(){
+    console.log("click")
+    if(page==0){
+        search_ajax(0)
+        document.documentElement.scrollTop = 0;
+//        document.querySelector("#search").focus()
+    }else{
+        search_ajax(page-1)
+//        document.querySelector("#search").focus()
+        document.documentElement.scrollTop = 0;
+    }
+    })
+    document.getElementById("下一頁1").addEventListener("click", function(){
+    console.log("click")
+    search_ajax(page+1)
+    document.documentElement.scrollTop = 0;
+//    document.querySelector("#search").focus()
+    })
+
+}
+
+
+function search_ajax(page){
+    var x = document.getElementById("home_page_paging");
+    var y = document.getElementById("tag_page_paging")
+    x.style.display = "none";
+    y.style.display = "block";
     let data= search()
     console.log(data)
     var xmlhttp = new XMLHttpRequest();
     var url = "/search";
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200) {
             let data = this.response
             console.log(data)
             document.getElementById('data').innerHTML = ''
             item(data["data"])
+            change_paging(data)
         };
     };
+
+
     xmlhttp.open("POST", url, true);
     xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencode');
     xmlhttp.responseType = 'json';
     xmlhttp.send(JSON.stringify({
-        "data": data
+        "data": data,"page":page
     }));
 }
 

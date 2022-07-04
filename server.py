@@ -32,8 +32,8 @@ def home_page(paging=0,tag=0):
 def search_page():
     tag = json.loads(request.data)
     print(tag)
-    data = MySQL.search_house(tag["data"])
-    dict = {"data": data}
+    data = MySQL.search_house(tag["data"], tag["page"])
+    dict = {"data": data, "page": tag["page"]}
     return dict
 
 
@@ -58,7 +58,7 @@ def detail_page():
         latitude = position["latitude"]
         list = [latitude,longitude]
         m.add_child(folium.Marker(location=list, opacity=0.8,
-                                icon=folium.Icon(icon='car', color='blue')))
+                                  icon=folium.Icon(icon='truck', color='blue', prefix='fa')))
     m = m._repr_html_()
     return render_template("main_page.html", detail=detail, map=m)
 

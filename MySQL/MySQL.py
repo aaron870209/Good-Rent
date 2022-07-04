@@ -59,7 +59,7 @@ def get_house_id():
 def get_all_info_from_house(paging):
     connection.ping(reconnect=True)
     cursor.execute(
-        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id LIMIT {int(paging)*15},15"
+        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL LIMIT {int(paging)*15},15"
     )
     data_list = cursor.fetchall()
     return data_list
@@ -69,19 +69,19 @@ def get_filter_info_from_house(paging, tag):
     connection.ping(reconnect=True)
     if tag == 1:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE floor < 4 and tag like '%電梯%' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and floor < 4 and tag like '%電梯%' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
     elif tag == 2:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE (house_type = '雅房' OR house_type = '分租套房') LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
     else:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE house_type='整層住家' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
@@ -96,7 +96,7 @@ def get_house_detail_by_id(id):
     return detail
 
 
-def search_house(tag):
+def search_house(tag,page):
     connection.ping(reconnect=True)
     taipei = tag["taipei"]
     print("taipei=",taipei)
@@ -154,9 +154,10 @@ def search_house(tag):
     print("region=",region)
     print("type=",type)
     print("rent",rent)
+    paging = page*15
     cursor.execute(
         "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
-        f" WHERE 1=1{region}{type}{rent}"
+        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL LIMIT {paging},15"
     )
     data = cursor.fetchall()
     return data
@@ -199,3 +200,10 @@ def get_truck_lon_lat_by_id(spot_id):
         "SELECT longitude,latitude FROM truck_spot WHERE truck_spot_id =%s",(spot_id)
     )
     return cursor.fetchone()
+
+
+def insert_school_spot(list):
+    connection.ping(reconnect=True)
+    stmt = "INSERT INTO school (name,address,longitude,latitude,city_id) VALUES (%s,%s,%s,%s,%s)"
+    cursor.executemany(stmt, list)
+    connection.commit()

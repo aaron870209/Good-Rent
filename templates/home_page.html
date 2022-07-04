@@ -19,7 +19,7 @@
           <ul class="dropdown-menu" id="menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="./?tag=1">年長者</a></li>
             <li><a class="dropdown-item" href="./?tag=2">學生</a></li>
-            <li><a class="dropdown-item" href="./?tag=3">家有兒童</a></li>
+            <li><a class="dropdown-item" href="./?tag=3">新婚夫妻</a></li>
           </ul>
     </div>
 <!--    <div class="logo_name">-->
@@ -106,21 +106,35 @@
             <input class="rent5_checkbox" type="radio" value="20000元以上" name="house_rent"><h3 class="rent5">20000元以上</h3>
         </div>
         <div class="forth_tag">
-            <button id="search" type="button" class="btn btn-dark button" onclick="search_ajax()">搜尋</button>
+            <button id="search" type="button" class="btn btn-dark button" onclick="search_ajax(0)">搜尋</button>
         </div>
 
     </div>
     <div id="data"></div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a id="上一頁" class="page-link" onclick="previous()">Previous</a>
-            </li>
-            <li class="page-item">
-                <a id="下一頁" class="page-link" onclick="next()">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <div id="home_page_paging">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a id="上一頁" class="page-link" onclick="previous()">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a id="下一頁" class="page-link" onclick="next()">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div id="tag_page_paging" style="display:none;">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a id="上一頁1" class="page-link">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a id="下一頁1" class="page-link">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     <script type="text/javascript" src="./static/home_page.js"></script>
 </body>

@@ -12,7 +12,7 @@ def crawler(region):
     from datetime import date
     import time
     chrome_options = Options()
-    # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     driver = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
     driver.get(f"https://rent.591.com.tw/?region={region}")
     total_house = WebDriverWait(driver,10).until(
@@ -87,7 +87,7 @@ def crawler(region):
             position = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "switch-list-content"))
             )
-            tag_list = position.find_elemeents(By.CLASS_NAME, "item-tags")
+            tag_list = position.find_elements(By.CLASS_NAME, "item-tags")
             price_list = position.find_elements(By.CLASS_NAME, "item-price-text")
             url_list = position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
             title_list = position.find_elements(By.CLASS_NAME, "item-title")
