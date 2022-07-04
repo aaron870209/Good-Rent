@@ -42,6 +42,7 @@ def detail_page():
     id = request.args.get('id')
     detail = MySQL.get_house_detail_by_id(int(id))
     truck_position = MySQL.get_truck_house_distance(id)
+    school_position = MySQL.get_school_house_distance(id)
     print(truck_position)
     truck_position_list = []
     print(truck_position_list)
@@ -59,9 +60,21 @@ def detail_page():
         list = [latitude,longitude]
         m.add_child(folium.Marker(location=list, opacity=0.8,
                                   icon=folium.Icon(icon='truck', color='blue', prefix='fa')))
+    for school in school_position:
+        school_id = school["school_id"]
+        position =MySQL.get_school_lon_lat_by_id(school_id)
+        longitude = position["longitude"]
+        latitude = position["latitude"]
+        list = [latitude, longitude]
+        iframe = folium.IFrame(f'<b>{position["name"]}</b>')
+        popup = folium.Popup(iframe, min_width=300, max_width=300, min_height=40, max_height=80)
+        m.add_child(folium.Marker(location=list, opacity=0.8,popup=popup,
+                                  icon=folium.Icon(icon='graduation-cap', color='red', prefix='fa')))
     m = m._repr_html_()
     return render_template("main_page.html", detail=detail, map=m)
 
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)
+
+
