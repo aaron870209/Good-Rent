@@ -65,6 +65,28 @@ def get_all_info_from_house(paging):
     return data_list
 
 
+def get_filter_info_from_house(paging, tag):
+    connection.ping(reconnect=True)
+    if tag == 1:
+        cursor.execute(
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE floor < 4 and tag like '%電梯%' LIMIT {int(paging)*15},15"
+        )
+        data_list = cursor.fetchall()
+        return data_list
+    elif tag == 2:
+        cursor.execute(
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE (house_type = '雅房' OR house_type = '分租套房') LIMIT {int(paging)*15},15"
+        )
+        data_list = cursor.fetchall()
+        return data_list
+    else:
+        cursor.execute(
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE house_type='整層住家' LIMIT {int(paging)*15},15"
+        )
+        data_list = cursor.fetchall()
+        return data_list
+
+
 def get_house_detail_by_id(id):
     connection.ping(reconnect=True)
     cursor.execute(

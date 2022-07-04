@@ -17,9 +17,9 @@
             族群推薦
           </button>
           <ul class="dropdown-menu" id="menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">年長者</a></li>
-            <li><a class="dropdown-item" href="#">學生</a></li>
-            <li><a class="dropdown-item" href="#">家有兒童</a></li>
+            <li><a class="dropdown-item" href="./?tag=1">年長者</a></li>
+            <li><a class="dropdown-item" href="./?tag=2">學生</a></li>
+            <li><a class="dropdown-item" href="./?tag=3">家有兒童</a></li>
           </ul>
     </div>
 <!--    <div class="logo_name">-->
@@ -129,14 +129,14 @@
     var data = {{data|tojson}}
 
     function next(){
-        location.href = './?paging='+(data[0].paging+1)
+        location.href = './?paging='+(data[0].paging+1)+'&tag='+data[0].tag
     }
 
     function previous(){
         if (data[0].paging > 0){
-            location.href = './?paging='+(data[0].paging-1)
+            location.href = './?paging='+(data[0].paging-1)+'&tag='+data[0].tag
          }else{
-            location.href = './?paging='+data[0].paging
+            location.href = './?paging='+data[0].paging+'&tag='+data[0].tag
          }
     }
 
