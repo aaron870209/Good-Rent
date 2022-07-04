@@ -31,35 +31,33 @@ def crawler(region):
     for paging in range(1, last_page+1):
         try:
             print(paging)
-            price_list = WebDriverWait(driver,10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
-            )
-            tag_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags"))
-            )
-            url_position = WebDriverWait(driver, 10).until(
+            # tag_list = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags"))
+            # )
+            position = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "switch-list-content"))
             )
-            url_list = url_position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
-            # url_list = WebDriverWait(driver, 10).until(
-            #     EC.presence_of_all_elements_located((By.CLASS_NAME, "vue-list-rent-item"))
+            tag_list = position.find_elements(By.CLASS_NAME, "item-tags")
+            price_list = position.find_elements(By.CLASS_NAME,"item-price-text")
+            url_list = position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
+            title_list = position.find_elements(By.CLASS_NAME, "item-title")
+            item_detail_list = position.find_elements(By.CLASS_NAME, "item-style")
+            address_list = position.find_elements(By.CLASS_NAME, "item-area")
+            # title_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-title"))
             # )
-
-            title_list = WebDriverWait(driver,10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME,"item-title"))
-            )
-            item_detail_list = WebDriverWait(driver,10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME,"item-style"))
-            )
-            address_list = WebDriverWait(driver,10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME,"item-area"))
-            )
+            # item_detail_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-style"))
+            # )
+            # address_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-area"))
+            # )
             for i in range(1,18):
                 driver.execute_script(f"window.scrollTo(0,500*{i})")
                 time.sleep(0.5)
             img_crawler_list = WebDriverWait(driver,10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "list-container-content"))
-            ).find_elements(By.CLASS_NAME,"carousel-list")
+            ).find_elements(By.CLASS_NAME, "carousel-list")
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
             tag_1 = [x.text for x in tag_list]
@@ -70,12 +68,12 @@ def crawler(region):
             title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
             item_detail.extend(item_detail_1)
-            address_1 = [x.find_element(By.TAG_NAME,"span").text.replace("-","") for x in address_list]
+            address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-", "") for x in address_list]
             address.extend(address_1)
-            img_1 = [x.find_element(By.TAG_NAME,"img").get_attribute("src") for x in img_crawler_list]
+            img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
             if paging < last_page:
-                driver.find_element(By.CLASS_NAME,'pageNext').click()
+                driver.find_element(By.CLASS_NAME, 'pageNext').click()
             else:
                 driver.close()
         except:
@@ -83,25 +81,28 @@ def crawler(region):
             for x in range(3):
                 driver.refresh()
                 time.sleep(3)
-            price_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-price-text"))
-            )
-            url_position = WebDriverWait(driver, 10).until(
+            # tag_list = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags"))
+            # )
+            position = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "switch-list-content"))
             )
-            url_list = url_position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
-            tag_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-tags")))
-            title_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-title"))
-            )
-            item_detail_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-style"))
-            )
-            address_list = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "item-area"))
-            )
-            for i in range(1, 17):
+            tag_list = position.find_elemeents(By.CLASS_NAME, "item-tags")
+            price_list = position.find_elements(By.CLASS_NAME, "item-price-text")
+            url_list = position.find_elements(By.CLASS_NAME, "vue-list-rent-item")
+            title_list = position.find_elements(By.CLASS_NAME, "item-title")
+            item_detail_list = position.find_elements(By.CLASS_NAME, "item-style")
+            address_list = position.find_elements(By.CLASS_NAME, "item-area")
+            # title_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-title"))
+            # )
+            # item_detail_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-style"))
+            # )
+            # address_list = WebDriverWait(driver,10).until(
+            #     EC.presence_of_all_elements_located((By.CLASS_NAME,"item-area"))
+            # )
+            for i in range(1, 18):
                 driver.execute_script(f"window.scrollTo(0,500*{i})")
                 time.sleep(0.5)
             img_crawler_list = WebDriverWait(driver, 10).until(
@@ -109,15 +110,15 @@ def crawler(region):
             ).find_elements(By.CLASS_NAME, "carousel-list")
             price_1 = [x.text for x in price_list]
             price.extend(price_1)
+            tag_1 = [x.text for x in tag_list]
+            tag.extend(tag_1)
             url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
             url.extend(url_1)
             title_1 = [x.text for x in title_list]
             title.extend(title_1)
-            tag_1 = [x.text for x in tag_list]
-            tag.extend(tag_1)
             item_detail_1 = [x.text for x in item_detail_list]
             item_detail.extend(item_detail_1)
-            address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-","") for x in address_list]
+            address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-", "") for x in address_list]
             address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
             img.extend(img_1)
@@ -151,4 +152,4 @@ t2.start()
 t1.join()
 t2.join()
 
-# crawler(3)
+# crawler(1)
