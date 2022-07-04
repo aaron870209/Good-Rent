@@ -179,9 +179,24 @@ def get_truck_lat_lon():
     return cursor.fetchall()
 
 
+def get_school_lat_lon():
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT school_id, longitude,latitude,city_id FROM school"
+    )
+    return cursor.fetchall()
+
+
 def insert_distance_truck_house(tuple_list):
     connection.ping(reconnect=True)
     stmt = "INSERT INTO house_truck_distance (house_id,truck_spot_id,distance) VALUES (%s,%s,%s)"
+    cursor.executemany(stmt, tuple_list)
+    connection.commit()
+
+
+def insert_distance_school_house(tuple_list):
+    connection.ping(reconnect=True)
+    stmt = "INSERT INTO house_school_distance (house_id,school_id,distance) VALUES (%s,%s,%s)"
     cursor.executemany(stmt, tuple_list)
     connection.commit()
 
@@ -190,6 +205,14 @@ def get_truck_house_distance(house_id):
     connection.ping(reconnect=True)
     cursor.execute(
         "SELECT truck_spot_id FROM house_truck_distance WHERE house_id=%s ORDER BY distance LIMIT 0,3", (house_id)
+    )
+    return cursor.fetchall()
+
+
+def get_school_house_distance(house_id):
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT school_id FROM house_school_distance WHERE house_id=%s ORDER BY distance LIMIT 0,3", (house_id)
     )
     return cursor.fetchall()
 
@@ -207,3 +230,11 @@ def insert_school_spot(list):
     stmt = "INSERT INTO school (name,address,longitude,latitude,city_id) VALUES (%s,%s,%s,%s,%s)"
     cursor.executemany(stmt, list)
     connection.commit()
+
+
+def get_school_lon_lat_by_id(spot_id):
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "SELECT longitude,latitude,name FROM school WHERE school_id =%s",(spot_id)
+    )
+    return cursor.fetchone()
