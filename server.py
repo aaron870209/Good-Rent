@@ -6,15 +6,26 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def home_page(paging=0):
+def home_page(paging=0,tag=0):
     data = []
     paging = int(request.args.get("paging",paging))
-    for house in MySQL.get_all_info_from_house(paging):
-        data_dict = {"id":house["house_id"],"title":house["title"],"price":house["price"],"address":house["address"],"img":house["img"],
-                "size":house["size"],"floor":house["floor"]+"F","longitude":house["longitude"],"latitude":house["latitude"],
-                "city":house["city"],"type":house["house_type"],"paging":paging}
-        data.append(data_dict)
-    return render_template("home_page.html",data=data)
+    tag = int(request.args.get("tag",tag))
+    if tag == 0:
+        for house in MySQL.get_all_info_from_house(paging):
+            data_dict = {"id":house["house_id"],"title":house["title"],"price":house["price"],"address":house["address"],"img":house["img"],
+                    "size":house["size"],"floor":house["floor"]+"F","longitude":house["longitude"],"latitude":house["latitude"],
+                    "city":house["city"],"type":house["house_type"],"paging":paging,"tag":tag}
+            data.append(data_dict)
+        return render_template("home_page.html",data=data)
+    else:
+        for house in MySQL.get_filter_info_from_house(paging,tag):
+            data_dict = {"id": house["house_id"], "title": house["title"], "price": house["price"],
+                         "address": house["address"], "img": house["img"],
+                         "size": house["size"], "floor": house["floor"] + "F", "longitude": house["longitude"],
+                         "latitude": house["latitude"],
+                         "city": house["city"], "type": house["house_type"], "paging": paging, "tag": tag}
+            data.append(data_dict)
+        return render_template("home_page.html", data=data)
 
 
 @app.route("/search", methods=['POST'])
@@ -33,13 +44,6 @@ def detail_page():
     truck_position = MySQL.get_truck_house_distance(id)
     print(truck_position)
     truck_position_list = []
-    # for truck in truck_position:
-    #     truck_id = truck["truck_spot_id"]
-    #     position = MySQL.get_truck_lon_lat_by_id(truck_id)
-    #     longitude = position["longitude"]
-    #     latitude = position["latitude"]
-    #     list = [latitude,longitude]
-    #     truck_position_list.append(list)
     print(truck_position_list)
     m = folium.Map(location=[detail["latitude"],detail["longitude"]],zoom_start=16)
     print(detail["title"])
