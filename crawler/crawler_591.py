@@ -59,18 +59,18 @@ def crawler(region):
                 EC.presence_of_element_located((By.CLASS_NAME, "list-container-content"))
             ).find_elements(By.CLASS_NAME, "carousel-list")
             price_1 = [x.text for x in price_list]
-            price.extend(price_1)
             tag_1 = [x.text for x in tag_list]
-            tag.extend(tag_1)
             url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
-            url.extend(url_1)
             title_1 = [x.text for x in title_list]
-            title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
-            item_detail.extend(item_detail_1)
             address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-", "") for x in address_list]
-            address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
+            price.extend(price_1)
+            tag.extend(tag_1)
+            url.extend(url_1)
+            title.extend(title_1)
+            item_detail.extend(item_detail_1)
+            address.extend(address_1)
             img.extend(img_1)
             if paging < last_page:
                 driver.find_element(By.CLASS_NAME, 'pageNext').click()
@@ -109,18 +109,18 @@ def crawler(region):
                 EC.presence_of_element_located((By.CLASS_NAME, "list-container-content"))
             ).find_elements(By.CLASS_NAME, "carousel-list")
             price_1 = [x.text for x in price_list]
-            price.extend(price_1)
             tag_1 = [x.text for x in tag_list]
-            tag.extend(tag_1)
             url_1 = [x.find_element(By.TAG_NAME, "a").get_attribute("href") for x in url_list]
-            url.extend(url_1)
             title_1 = [x.text for x in title_list]
-            title.extend(title_1)
             item_detail_1 = [x.text for x in item_detail_list]
-            item_detail.extend(item_detail_1)
             address_1 = [x.find_element(By.TAG_NAME, "span").text.replace("-", "") for x in address_list]
-            address.extend(address_1)
             img_1 = [x.find_element(By.TAG_NAME, "img").get_attribute("src") for x in img_crawler_list]
+            price.extend(price_1)
+            tag.extend(tag_1)
+            url.extend(url_1)
+            title.extend(title_1)
+            item_detail.extend(item_detail_1)
+            address.extend(address_1)
             img.extend(img_1)
             if paging < last_page:
                 driver.find_element(By.CLASS_NAME, 'pageNext').click()
