@@ -6,6 +6,9 @@ from selenium.webdriver.chrome.options import Options
 import threading
 from webdriver_manager.chrome import ChromeDriverManager
 from mongo import mongo
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def crawler(region):
@@ -13,7 +16,8 @@ def crawler(region):
     import time
     chrome_options = Options()
     chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
+    chrome_options.binary_location = os.getenv('options_location')
+    driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(),chrome_options=chrome_options)
     driver.get(f"https://rent.591.com.tw/?region={region}")
     total_house = WebDriverWait(driver,10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "switch-amount"))
@@ -75,7 +79,7 @@ def crawler(region):
             if paging < last_page:
                 driver.find_element(By.CLASS_NAME, 'pageNext').click()
             else:
-                driver.close()
+                driver.quit()
         except:
             print("error page on=",paging)
             for x in range(3):
@@ -125,7 +129,7 @@ def crawler(region):
             if paging < last_page:
                 driver.find_element(By.CLASS_NAME, 'pageNext').click()
             else:
-                driver.close()
+                driver.quit()
     if region == 1:
         city="臺北市"
     else:

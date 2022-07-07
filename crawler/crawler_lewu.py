@@ -11,6 +11,7 @@ from pymongo import MongoClient
 import re
 import threading
 from mongo import mongo
+load_dotenv()
 
 
 Taipei = "eJyrVkrOLKlUsopWMlCK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5AwQF6wNKFJanJqcn5IKEjIHqrcAYksgNjQAEsZKsbUArxsbyQ"
@@ -22,7 +23,8 @@ def crawler(region):
     import time
     chrome_options = Options()
     chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
+    chrome_options.binary_location = os.getenv('options_location')
+    driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
     driver.get(f"https://www.rakuya.com.tw/search/rent_search/index?con={region}&upd=1")
     total_pages = driver.find_element(By.CLASS_NAME,"pages").text
     last_page = int(total_pages.split(' ')[3])
@@ -62,7 +64,7 @@ def crawler(region):
             elif paging < last_page:
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
             else:
-                driver.close()
+                driver.quit()
         except:
             print(paging)
             for i in range(3):
@@ -101,7 +103,7 @@ def crawler(region):
             elif paging < last_page:
                 driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
             else:
-                driver.close()
+                driver.quit()
     if region == "eJyrVkrOLKlUsopWMlCK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5AwQF6wNKFJanJqcn5IKEjIHqrcAYksgNjQAEsZKsbUArxsbyQ":
         city = "臺北市"
     else:
