@@ -10,6 +10,7 @@ from MySQL import MySQL
 import threading
 from geopy.geocoders import Nominatim
 import random
+import os
 from geopy.extra.rate_limiter import RateLimiter
 
 
@@ -22,7 +23,8 @@ def get_coordinate(addr, house_id):
         # chrome_options.add_argument('--proxy-server=http://202.20.16.82:10152')
         chrome_options.add_argument('--headless')
         # chrome_options.add_argument("user-agent={}".format(ua))
-        browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
+        chrome_options.binary_location = os.getenv('options_location')
+        browser = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
         browser.get("http://www.map.com.tw/")
         time.sleep(i)
         search = browser.find_element(By.ID, "searchWord")
@@ -54,7 +56,8 @@ def get_coordinate(addr, house_id):
         chrome_options = Options()
         ua = UserAgent().random
         chrome_options.add_argument('--headless')
-        browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
+        chrome_options.binary_location = os.getenv('options_location')
+        browser = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
         browser.get("http://www.map.com.tw/")
         time.sleep(3)
         search = browser.find_element(By.ID, "searchWord")
