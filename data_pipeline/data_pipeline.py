@@ -6,7 +6,7 @@ from MySQL import MySQL
 
 
 def data_cleaning():
-    today = "2022-07-04"
+    today = "2022-07-05"
     raw_data_list = mongo.get_data_from_mongo(today)
     for raw_data in raw_data_list:
         for length in range(len(raw_data["data"]["title"])):
@@ -14,8 +14,6 @@ def data_cleaning():
             title = data["title"][length]
             detail = data["item_detail"][length]
             url = data["url"][length]
-            print("url=",url)
-            print("detail=", detail)
             if data["source"] == "591":
                 tag = data["tag"][length]
                 type = detail.split(" ")[0]
@@ -37,18 +35,10 @@ def data_cleaning():
                     price = int(float(data["price"][length].replace("萬", "").replace("元","").replace(",",''))*10000)
                 else:
                     price = int(data["price"][length].replace("元",'').replace(",",'').replace("/月",""))
-                print("type=", type)
-                print("size=", size)
-                print("floor=", floor)
                 city = data["region"]
-                print("tag=", tag)
-                print("city=",city)
-                address = data["address"][length]
-                print("address=",address)
+                address = data["address"][length].replace("台北市","").replace("新北市","")
                 img = data["img"][length]
-                print("img=",img)
                 key = address+type+size+floor
-                print("key=",key)
                 data_dict = {"title": title,"price":price,"address":address,"img":img,
                              "type":type,"size":size,"floor":floor,"key":key,"city":city,"tag":tag,"url":url,"date":today}
                 # try:
