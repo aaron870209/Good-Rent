@@ -69,7 +69,7 @@ def get_filter_info_from_house(paging, tag):
     connection.ping(reconnect=True)
     if tag == 1:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and floor < 4 and tag like '%電梯%' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
