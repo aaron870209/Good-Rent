@@ -18,12 +18,42 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+function show_detail(tag){
+    if (tag === 1){
+        x = document.getElementById("tag1_detail")
+        x.style.display = "block"
+    }else if(tag === 2){
+        x = document.getElementById("tag2_detail")
+        x.style.display = "block"
+    }else{
+        x = document.getElementById("tag3_detail")
+        x.style.display = "block"
+    }
+}
+
+function hide_detail(tag){
+    if (tag ===1){
+        x = document.getElementById("tag1_detail")
+        x.style.display = "none"
+    }else if(tag === 2){
+        x = document.getElementById("tag2_detail")
+        x.style.display = "none"
+    }else{
+        x = document.getElementById("tag3_detail")
+        x.style.display = "none"
+    }
+
+}
+
 function show_bar(){
     x = document.getElementById("menu")
+    y = document.getElementById("dropdownMenuButton1")
     if (x.style.display === "none"){
         x.style.display = "block";
+        y.style.marginRight = "23%";
     }else{
         x.style.display = "none";
+        y.style.marginRight = "11px";
     }
 }
 
@@ -34,8 +64,6 @@ function show_Taipei() {
   if (x.style.display === "none") {
     y.style.display = "none";
     x.style.display = "block";
-  } else {
-    x.style.display = "none";
   }
 }
 
@@ -46,8 +74,6 @@ function show_New_Taipei() {
   if (x.style.display === "none") {
     y.style.display = "none";
     x.style.display = "block";
-  } else {
-    x.style.display = "none";
   }
 }
 

@@ -7,10 +7,22 @@
     margin-left:15px;
     margin-top:2px;
 }
+.tag_detail{
+    position:absolute;
+    right:2%;
+    margin-top:20px;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0.25rem;
+}
 .downer_line{
     clear:both;
     height:5px;
     background:gray;
+}
+.tag_box{
+    width:80%;
+    margin-left:10%;
+    margin-top:19.92px;
 }
 #position{
     position:absolute;
@@ -487,7 +499,7 @@
 .button{
     position:absolute;
     margin-top:330px;
-    margin-left:45%;
+    margin-left:35%;
 }
 
 a{
@@ -600,13 +612,12 @@ a{
 #dropdownMenuButton1{
     float:right;
     margin-top:20px;
-    margin-right:20px;
 }
 
 #menu{
     position:absolute;
-    right:20px;
-    top:75px
+    right:17%;
+    top:30px
 }
 .dropdown-item:hover{
     background:#ADADAD;
