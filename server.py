@@ -60,6 +60,12 @@ def detail_page():
         list = [latitude,longitude]
         m.add_child(folium.Marker(location=list, opacity=0.8,
                                   icon=folium.Icon(icon='truck', color='blue', prefix='fa')))
+    print(detail["house_type"])
+    if detail["house_type"] == "整層住家":
+        show_school = True
+    else:
+        show_school = False
+    feature_group = folium.FeatureGroup(name='學校', show=show_school)
     for school in school_position:
         school_id = school["school_id"]
         position =MySQL.get_school_lon_lat_by_id(school_id)
@@ -68,10 +74,16 @@ def detail_page():
         list = [latitude, longitude]
         iframe = folium.IFrame(f'<b>{position["name"]}</b>')
         popup = folium.Popup(iframe, min_width=300, max_width=300, min_height=40, max_height=80)
-        m.add_child(folium.Marker(location=list, opacity=0.8,popup=popup,
-                                  icon=folium.Icon(icon='graduation-cap', color='red', prefix='fa')))
+        folium.Marker(location=list, opacity=0.8,popup=popup,
+                      icon=folium.Icon(icon='graduation-cap', color='red', prefix='fa')).add_to(feature_group)
+    feature_group.add_to(m)
+    folium.LayerControl().add_to(m)
     m = m._repr_html_()
-    return render_template("main_page.html", detail=detail, map=m)
+    if "電梯" in detail["tag"]:
+        elevator = "有"
+    else:
+        elevator = "無"
+    return render_template("main_page.html", detail=detail, map=m,elevator=elevator)
 
 
 if __name__ == '__main__':
