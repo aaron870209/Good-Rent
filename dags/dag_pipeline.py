@@ -21,6 +21,7 @@ with DAG(
     description='A simple tutorial DAG',
     schedule_interval=timedelta(days=1),
     start_date=pendulum.datetime(2021, 1, 1,tz="Asia/Taipei"),
+    dagrun_timeout=datetime.timedelta(minutes=1440),
     catchup=False,
     tags=['example'],
 ) as dag:
@@ -29,6 +30,7 @@ with DAG(
     crawl_591 = BashOperator(
         task_id='crawl_591',
         bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawler_591.py',
+        do_xcom_push=False,
         dag=dag
     )
 
@@ -36,6 +38,7 @@ with DAG(
         task_id='crawl_lewu',
         depends_on_past=False,
         bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawler_lewu.py',
+        do_xcom_push=False,
         dag=dag
     )
 
@@ -43,6 +46,7 @@ with DAG(
         task_id='data_cleaning',
         depends_on_past=False,
         bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 data_pipeline.py',
+        do_xcom_push=False,
         dag=dag
     )
 
@@ -50,6 +54,7 @@ with DAG(
         task_id='crawl_lat_log',
         depends_on_past=False,
         bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawl_log_lat.py',
+        do_xcom_push=False,
         dag=dag
     )
 
@@ -57,6 +62,7 @@ with DAG(
         task_id='calculate_truck',
         depends_on_past=False,
         bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_distance.py',
+        do_xcom_push=False,
         dag=dag
     )
 
@@ -64,6 +70,7 @@ with DAG(
         task_id='calculate_school',
         depends_on_past=False,
         bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_school_distance.py',
+        do_xcom_push=False,
         dag=dag
     )
 
