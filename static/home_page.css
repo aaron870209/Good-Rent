@@ -2,6 +2,7 @@
     margin-left:30px;
     float:left;
 }
+
 .logo_name{
     float:left;
     margin-left:15px;
@@ -459,9 +460,10 @@
 
 .price{
     color:red;
-    font-size:28px;
+    font-size:20px;
     margin-right:5%;
     text-align:right;
+    font-family: Microsoft JhengHei;
 }
 .clear{
     clear:left;
