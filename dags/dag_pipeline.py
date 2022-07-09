@@ -20,7 +20,7 @@ with DAG(
     },
     description='A simple tutorial DAG',
     schedule_interval=timedelta(days=1),
-    start_date=datetime(2021, 1, 1, tz="Asia/Taipei"),
+    start_date=pendulum.datetime(2021, 1, 1,tz="Asia/Taipei"),
     catchup=False,
     tags=['example'],
 ) as dag:
@@ -32,39 +32,39 @@ with DAG(
         dag=dag
     )
 
-    # crawl_lewu = BashOperator(
-    #     task_id='crawl_lewu',
-    #     depends_on_past=False,
-    #     bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawler_lewu.py',
-    #     dag=dag
-    # )
-    #
-    # data_cleaning = BashOperator(
-    #     task_id='data_cleaning',
-    #     depends_on_past=False,
-    #     bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 data_pipeline.py',
-    #     dag=dag
-    # )
-    #
-    # crawl_lat_log = BashOperator(
-    #     task_id='crawl_lat_log',
-    #     depends_on_past=False,
-    #     bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawl_log_lat.py',
-    #     dag=dag
-    # )
-    #
-    # calculate_truck = BashOperator(
-    #     task_id='calculate_truck',
-    #     depends_on_past=False,
-    #     bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_distance.py',
-    #     dag=dag
-    # )
-    #
-    # calculate_school = BashOperator(
-    #     task_id='calculate_school',
-    #     depends_on_past=False,
-    #     bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_school_distance.py',
-    #     dag=dag
-    # )
+    crawl_lewu = BashOperator(
+        task_id='crawl_lewu',
+        depends_on_past=False,
+        bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawler_lewu.py',
+        dag=dag
+    )
 
-    # [crawl_591,crawl_lewu] >> data_cleaning >> crawl_lat_log >> [calculate_truck,calculate_school]
+    data_cleaning = BashOperator(
+        task_id='data_cleaning',
+        depends_on_past=False,
+        bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 data_pipeline.py',
+        dag=dag
+    )
+
+    crawl_lat_log = BashOperator(
+        task_id='crawl_lat_log',
+        depends_on_past=False,
+        bash_command='cd /home/ec2-user/Good-Rent/crawler && python3 crawl_log_lat.py',
+        dag=dag
+    )
+
+    calculate_truck = BashOperator(
+        task_id='calculate_truck',
+        depends_on_past=False,
+        bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_distance.py',
+        dag=dag
+    )
+
+    calculate_school = BashOperator(
+        task_id='calculate_school',
+        depends_on_past=False,
+        bash_command='cd /home/ec2-user/Good-Rent/data_pipeline && python3 calculate_school_distance.py',
+        dag=dag
+    )
+
+    crawl_591 >> crawl_lewu >> data_cleaning >> crawl_lat_log >> [calculate_truck,calculate_school]
