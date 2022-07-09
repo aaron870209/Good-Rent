@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from pymysqlpool.pool import Pool
+from datetime import date
 import os
 load_dotenv()
 
@@ -39,7 +40,7 @@ def insert_truck_spot_to_SQL(dict):
 def update_house_log_lat(dict):
     connection.ping(reconnect=True)
     cursor.execute(
-        "UPDATE house SET longitude= %s,latitude=%s WHERE house_id = %s", (dict["log"], dict["lat"],dict["id"])
+        "UPDATE house SET longitude= %s,latitude=%s ,`update`=1 WHERE house_id = %s", (dict["log"], dict["lat"],dict["id"])
     )
     connection.commit()
 
@@ -164,9 +165,10 @@ def search_house(tag,page):
 
 
 def get_house_lat_lon():
+    today = date.today()
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT house_id,longitude,latitude,city_id from house WHERE longitude IS NOT NULL"
+        "SELECT house_id,longitude,latitude,city_id from house WHERE date=%s and `update`=1", (today)
     )
     return cursor.fetchall()
 
