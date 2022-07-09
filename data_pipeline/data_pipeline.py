@@ -6,7 +6,7 @@ from MySQL import MySQL
 
 
 def data_cleaning():
-    today = "2022-07-05"
+    today = str(date.today())
     raw_data_list = mongo.get_data_from_mongo(today)
     for raw_data in raw_data_list:
         for length in range(len(raw_data["data"]["title"])):
