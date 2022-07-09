@@ -12,7 +12,8 @@ from geopy.geocoders import Nominatim
 import random
 import os
 from geopy.extra.rate_limiter import RateLimiter
-
+from dotenv import load_dotenv
+load_dotenv()
 
 def get_coordinate(addr, house_id):
     try:
@@ -34,7 +35,6 @@ def get_coordinate(addr, house_id):
         # time.sleep(5)
         time.sleep(i)
         iframe = browser.find_element(By.CLASS_NAME, 'winfoIframe')
-        # print(iframe)
         browser.switch_to.frame(iframe)
         time.sleep(i)
         coor_btn = WebDriverWait(browser, 10).until(
@@ -66,7 +66,6 @@ def get_coordinate(addr, house_id):
         browser.find_element(By.XPATH, "/html/body/form/div[10]/div[2]/img[2]").click()
         time.sleep(5)
         iframe = browser.find_element(By.CLASS_NAME, 'winfoIframe')
-        print(iframe.text)
         browser.switch_to.frame(iframe)
         time.sleep(3)
         coor_btn = WebDriverWait(browser, 10).until(
