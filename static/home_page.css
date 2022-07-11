@@ -14,6 +14,7 @@
     margin-top:20px;
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 0.25rem;
+    z-index:50;
 }
 .downer_line{
     clear:both;
@@ -501,7 +502,7 @@
 .button{
     position:absolute;
     margin-top:330px;
-    margin-left:35%;
+    margin-left:45%;
 }
 
 a{

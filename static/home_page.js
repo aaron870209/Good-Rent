@@ -50,7 +50,7 @@ function show_bar(){
     y = document.getElementById("dropdownMenuButton1")
     if (x.style.display === "none"){
         x.style.display = "block";
-        y.style.marginRight = "23%";
+        y.style.marginRight = "28%";
     }else{
         x.style.display = "none";
         y.style.marginRight = "11px";
