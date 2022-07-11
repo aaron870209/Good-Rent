@@ -40,7 +40,7 @@ def insert_truck_spot_to_SQL(dict):
 def update_house_log_lat(dict):
     connection.ping(reconnect=True)
     cursor.execute(
-        "UPDATE house SET longitude= %s,latitude=%s ,`update`=1 WHERE house_id = %s", (dict["log"], dict["lat"],dict["id"])
+        "UPDATE house SET longitude= %s,latitude=%s WHERE house_id = %s", (dict["log"], dict["lat"],dict["id"])
     )
     connection.commit()
 
@@ -168,7 +168,7 @@ def get_house_lat_lon():
     today = date.today()
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT house_id,longitude,latitude,city_id from house WHERE date=%s and `update`=1", (today)
+        "SELECT house_id,longitude,latitude,city_id from house WHERE date=%s AND `update` IS NULL",(str(today))
     )
     return cursor.fetchall()
 
@@ -240,3 +240,10 @@ def get_school_lon_lat_by_id(spot_id):
         "SELECT longitude,latitude,name FROM school WHERE school_id =%s",(spot_id)
     )
     return cursor.fetchone()
+
+
+def finish_update(id_list):
+    connection.ping(reconnect=True)
+    stmt = f"UPDATE house SET `update`=1 WHERE house_id IN {tuple(id_list)}"
+    cursor.execute(stmt)
+    connection.commit()
