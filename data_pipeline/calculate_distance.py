@@ -4,11 +4,13 @@ import time
 
 
 def calculate_distance():
+    id_list = []
     for house in MySQL.get_house_lat_lon():
         tuple_list = []
         house_id = house["house_id"]
         print(house_id)
         house_city_id = house["city_id"]
+        id_list.append(house_id)
         house_location = (house["longitude"],house["latitude"])
         for spot in MySQL.get_truck_lat_lon():
             spot_id = spot["truck_spot_id"]
@@ -24,6 +26,7 @@ def calculate_distance():
             else:
                 pass
         MySQL.insert_distance_truck_house(tuple_list)
+    MySQL.finish_update(id_list)
     print("Finished")
 
 
