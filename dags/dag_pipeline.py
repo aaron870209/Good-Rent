@@ -4,6 +4,7 @@ from airflow.operators.bash import BashOperator
 import pendulum
 import os
 from dotenv import load_dotenv
+import datetime
 load_dotenv()
 
 with DAG(
