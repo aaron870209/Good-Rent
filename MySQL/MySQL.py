@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from pymysqlpool.pool import Pool
 from datetime import date
 import os
+import datetime
 load_dotenv()
 
 
@@ -10,6 +11,8 @@ pool = Pool(host=os.getenv("host"), user=os.getenv("user"), password=os.getenv("
 pool.init()
 connection = pool.get_conn()
 cursor = connection.cursor()
+today = date.today()
+yesterday = today-datetime.timedelta(days=1)
 
 
 def insert_house_data_to_SQL(dict):
@@ -60,7 +63,7 @@ def get_house_id():
 def get_all_info_from_house(paging):
     connection.ping(reconnect=True)
     cursor.execute(
-        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL LIMIT {int(paging)*15},15"
+        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(yesterday)}' LIMIT {int(paging)*15},15"
     )
     data_list = cursor.fetchall()
     return data_list
@@ -70,19 +73,19 @@ def get_filter_info_from_house(paging, tag):
     connection.ping(reconnect=True)
     if tag == 1:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
     elif tag == 2:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
-    else:
+    elif tag == 3:
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list
@@ -91,7 +94,7 @@ def get_filter_info_from_house(paging, tag):
 def get_house_detail_by_id(id):
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE `house_id` =%s",(id)
+        "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE `house_id` =%s ",(id)
     )
     detail = cursor.fetchone()
     return detail
@@ -158,7 +161,7 @@ def search_house(tag,page):
     paging = page*15
     cursor.execute(
         "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
-        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL LIMIT {paging},15"
+        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}' LIMIT {paging},15"
     )
     data = cursor.fetchall()
     return data
@@ -246,4 +249,13 @@ def finish_update(id_list):
     connection.ping(reconnect=True)
     stmt = f"UPDATE house SET `update`=1 WHERE house_id IN {tuple(id_list)}"
     cursor.execute(stmt)
+    connection.commit()
+
+
+def add_new_data_count(total_list):
+    count = len(total_list)
+    connection.ping(reconnect=True)
+    cursor.execute(
+        "INSERT INTO monitor (`date`,new_data_count) VALUES (%s,%s)",(str(today),count)
+    )
     connection.commit()
