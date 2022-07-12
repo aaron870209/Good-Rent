@@ -105,6 +105,7 @@ def change_address_to_latlon(address,house_id):
         get_coordinate(address, house_id)
 
 def get_data_from_DB():
+    MySQL.add_new_data_count(MySQL.get_house_id())
     for house in MySQL.get_house_id():
         city_id = house["city_id"]
         if city_id == 1:
