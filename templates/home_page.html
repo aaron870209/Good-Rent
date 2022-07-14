@@ -69,10 +69,10 @@
                 <h3>位置</h3>
             </span>
             <span id="Taipei">
-                <h3 onclick="show_Taipei()">台北市</h3>
+                <h3 class="city" onclick="show_Taipei()">台北市</h3>
             </span>
             <span id="NewTaipei">
-                <h3 onclick="show_New_Taipei()">新北市</h3>
+                <h3 class="city" onclick="show_New_Taipei()">新北市</h3>
             </span>
         </div>
         <div id="Taipei_region">
@@ -144,6 +144,9 @@
         </div>
 
     </div>
+    <div id="total" style="margin-left:50px;">
+        <h1>為您找到 {{total}} 間適合的房子</h1>
+    </div>
     <div id="data"></div>
     <div id="home_page_paging">
         <nav aria-label="Page navigation example">
@@ -160,10 +163,10 @@
     <div id="tag_page_paging" style="display:none;">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
+                <li id="previous_page" class="page-item">
                     <a id="上一頁1" class="page-link">Previous</a>
                 </li>
-                <li class="page-item">
+                <li id="next_page" class="page-item">
                     <a id="下一頁1" class="page-link">Next</a>
                 </li>
             </ul>
@@ -176,16 +179,30 @@
 </html>
 <script>
     var data = {{data|tojson}}
+    var total = {{total}}
+    var limit_page = parseInt(total/15)
+
+    function page_control(tag){
+        if (tag == 1){
+        alert("這是最後一頁囉！！")
+        }else{
+        alert("這是第一頁囉！！")
+        }
+    }
 
     function next(){
+        if (data[0].paging == limit_page){
+            page_control(1)
+        }else{
         location.href = './?paging='+(data[0].paging+1)+'&tag='+data[0].tag
+        }
     }
 
     function previous(){
         if (data[0].paging > 0){
             location.href = './?paging='+(data[0].paging-1)+'&tag='+data[0].tag
          }else{
-            location.href = './?paging='+data[0].paging+'&tag='+data[0].tag
+            page_control(2)
          }
     }
 
