@@ -23,9 +23,9 @@ def insert_house_data_to_SQL(dict):
     city_id = city_dict[dict["city"]]
     cursor.execute(
         "INSERT INTO `house` (`title`,`price`,`address`,`img`,`city_id`,`size`,`floor`,`type_id`,`key`,`url`,`tag`,`date`) VALUEs "
-        "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE `url`=%s,`tag`=%s,`date`=%s",
+        "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE `url`=%s,`tag`=%s,`date`=%s,img=%s",
         (dict["title"],dict["price"],dict["address"],dict["img"],city_id,dict["size"],dict["floor"],
-         type_id,dict["key"],dict["url"],dict["tag"],dict["date"],dict["url"],dict["tag"],dict["date"])
+         type_id,dict["key"],dict["url"],dict["tag"],dict["date"],dict["url"],dict["tag"],dict["date"],dict["img"])
     )
     connection.commit()
 
@@ -63,32 +63,52 @@ def get_house_id():
 def get_all_info_from_house(paging):
     connection.ping(reconnect=True)
     cursor.execute(
+        f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(yesterday)}'"
+    )
+    total = cursor.fetchone()
+    connection.commit()
+    cursor.execute(
         f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(yesterday)}' LIMIT {int(paging)*15},15"
     )
     data_list = cursor.fetchall()
-    return data_list
+    return data_list,total
 
 
 def get_filter_info_from_house(paging, tag):
     connection.ping(reconnect=True)
     if tag == 1:
         cursor.execute(
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(yesterday)}'"
+        )
+        total = cursor.fetchone()
+        connection.commit()
+        cursor.execute(
             f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
-        return data_list
+        return data_list,total
     elif tag == 2:
+        cursor.execute(
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(yesterday)}'"
+        )
+        total = cursor.fetchone()
+        connection.commit()
         cursor.execute(
             f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
-        return data_list
+        return data_list,total
     elif tag == 3:
+        cursor.execute(
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(yesterday)}'"
+        )
+        total = cursor.fetchone()
+        connection.commit()
         cursor.execute(
             f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(yesterday)}' LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
-        return data_list
+        return data_list,total
 
 
 def get_house_detail_by_id(id):
@@ -160,11 +180,17 @@ def search_house(tag,page):
     print("rent",rent)
     paging = page*15
     cursor.execute(
+        "SELECT count(*) FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
+        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}'"
+    )
+    total = cursor.fetchone()
+    connection.commit()
+    cursor.execute(
         "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
         f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}' LIMIT {paging},15"
     )
     data = cursor.fetchall()
-    return data
+    return data,total
 
 
 def get_house_lat_lon():
