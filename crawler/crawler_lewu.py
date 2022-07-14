@@ -22,7 +22,7 @@ def crawler(region):
     from datetime import date
     import time
     chrome_options = Options()
-    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--headless')
     chrome_options.binary_location = os.getenv('options_location')
     driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
     driver.get(f"https://www.rakuya.com.tw/search/rent_search/index?con={region}&upd=1")
@@ -79,38 +79,37 @@ def crawler(region):
                 product_list = WebDriverWait(driver, 10).until(
                     EC.presence_of_all_elements_located((By.CLASS_NAME, "obj-item.clearfix"))
                 )
-            finally:
-                url_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").get_attribute("href") for
-                         x in product_list]
-                url.extend(url_1)
-                price_1 = [x.find_element(By.CLASS_NAME, "obj-price").find_element(By.TAG_NAME, "span").text for x in
-                         product_list]
-                price.extend(price_1)
-                title_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").text for x in
-                         product_list]
-                title.extend(title_1)
-                item_detail_1 = []
-                for i in product_list:
-                    detail_list = i.find_element(By.CLASS_NAME, "obj-data.clearfix").find_elements(By.CLASS_NAME,
-                                                                                                   "clearfix")
-                    detail = detail_list[0].text + "/" + detail_list[1].text
-                    item_detail_1.append(detail)
-                item_detail.extend(item_detail_1)
-                address_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "p").text for x in
-                           product_list]
-                address.extend(address_1)
-                img_1 = [re.search(r'https[a-z:\/.0-9_?]+', x.find_element(By.TAG_NAME, "a").get_attribute("style")).group(0)
-                       for x in product_list]
-                img.extend(img_1)
-                if paging < 5:
-                    driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{paging + 2}]/a").click()
-                elif paging > (last_page - 3) and paging <= last_page:
-                    driver.find_element(By.XPATH,
-                                        f"/html/body/div[8]/div/div[1]/nav/ul/li[{9 - (last_page - paging)}]/a").click()
-                elif paging < last_page:
-                    driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
-                else:
-                    driver.quit()
+            url_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").get_attribute("href") for
+                     x in product_list]
+            url.extend(url_1)
+            price_1 = [x.find_element(By.CLASS_NAME, "obj-price").find_element(By.TAG_NAME, "span").text for x in
+                     product_list]
+            price.extend(price_1)
+            title_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").text for x in
+                     product_list]
+            title.extend(title_1)
+            item_detail_1 = []
+            for i in product_list:
+                detail_list = i.find_element(By.CLASS_NAME, "obj-data.clearfix").find_elements(By.CLASS_NAME,
+                                                                                               "clearfix")
+                detail = detail_list[0].text + "/" + detail_list[1].text
+                item_detail_1.append(detail)
+            item_detail.extend(item_detail_1)
+            address_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "p").text for x in
+                       product_list]
+            address.extend(address_1)
+            img_1 = [re.search(r'https[a-z:\/.0-9_?]+', x.find_element(By.TAG_NAME, "a").get_attribute("style")).group(0)
+                   for x in product_list]
+            img.extend(img_1)
+            if paging < 5:
+                driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{paging + 2}]/a").click()
+            elif paging > (last_page - 3) and paging <= last_page:
+                driver.find_element(By.XPATH,
+                                    f"/html/body/div[8]/div/div[1]/nav/ul/li[{9 - (last_page - paging)}]/a").click()
+            elif paging < last_page:
+                driver.find_element(By.XPATH, f"/html/body/div[8]/div/div[1]/nav/ul/li[{6}]/a").click()
+            else:
+                driver.quit()
     if region == "eJyrVkrOLKlUsopWMlCK1VFKySwuyEkE8pVyMotLlHSU8pOyMvNSQPJBIPni1MSi5AwQF6wNKFJanJqcn5IKEjIHqrcAYksgNjQAEsZKsbUArxsbyQ":
         city = "臺北市"
     else:
