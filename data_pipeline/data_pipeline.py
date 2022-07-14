@@ -8,8 +8,10 @@ from MySQL import MySQL
 def data_cleaning():
     today = str(date.today())
     raw_data_list = mongo.get_data_from_mongo(today)
+    count=0
     for raw_data in raw_data_list:
         for length in range(len(raw_data["data"]["title"])):
+            print(count)
             data = raw_data["data"]
             title = data["title"][length]
             detail = data["item_detail"][length]
@@ -43,6 +45,7 @@ def data_cleaning():
                              "type":type,"size":size,"floor":floor,"key":key,"city":city,"tag":tag,"url":url,"date":today}
                 # try:
                 MySQL.insert_house_data_to_SQL(data_dict)
+                count += 1
                 # except IntegrityError:
                 #     print(title,city,address)
                 #     pass
