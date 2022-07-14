@@ -22,7 +22,7 @@ def crawler(region):
     from datetime import date
     import time
     chrome_options = Options()
-    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--headless')
     chrome_options.binary_location = os.getenv('options_location')
     driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
     driver.get(f"https://www.rakuya.com.tw/search/rent_search/index?con={region}&upd=1")
@@ -66,19 +66,16 @@ def crawler(region):
             else:
                 driver.quit()
         except:
-            print(paging)
-            try:
-                for i in range(3):
+            for i in range(20):
+                print(paging)
+                try:
+                    product_list = WebDriverWait(driver, 10).until(
+                        EC.presence_of_all_elements_located((By.CLASS_NAME, "obj-item.clearfix"))
+                    )
+                    break
+                except:
                     driver.refresh()
                     time.sleep(3)
-                product_list = WebDriverWait(driver, 10).until(
-                    EC.presence_of_all_elements_located((By.CLASS_NAME, "obj-item.clearfix"))
-                )
-            except:
-                driver.refresh()
-                product_list = WebDriverWait(driver, 10).until(
-                    EC.presence_of_all_elements_located((By.CLASS_NAME, "obj-item.clearfix"))
-                )
             url_1 = [x.find_element(By.CLASS_NAME, "obj-title").find_element(By.TAG_NAME, "a").get_attribute("href") for
                      x in product_list]
             url.extend(url_1)
