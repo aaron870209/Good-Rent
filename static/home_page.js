@@ -133,37 +133,38 @@ function search(){
 
 function item(data){
     console.log(data)
-    for(var i = 0; i < data.length; i++){
-        console.log(data[i].title)
+    var data1 = data["data"]
+    for(var i = 0; i < data1.length; i++){
+        console.log(data1[i].title)
         const div = document.createElement("div")
         div.className = "create_div"
         const link = document.createElement("a")
-        link.href = "./detail?id="+data[i].house_id
+        link.href = "./detail?id="+data1[i].house_id
         div.appendChild(link)
         const img = document.createElement("img");
         img.className = "img";
         img.style.width="20%";
-        img.src = data[i].img;
+        img.src = data1[i].img;
         link.appendChild(img);
         const title = document.createElement("div");
         title.className = "title";
-        title.innerHTML = '<h2>'+data[i].title+'</h2>';
+        title.innerHTML = '<h2>'+data1[i].title+'</h2>';
         link.appendChild(title);
         const address = document.createElement("div");
         address.className = "address";
-        address.innerHTML = '<h3>'+data[i].address+'</h3>'
+        address.innerHTML = '<h3>'+data1[i].address+'</h3>'
         link.appendChild(address)
         const type = document.createElement("div");
         type.className = "house_type"
-        type.innerHTML = '<h3>'+data[i].house_type+'</h3>'
+        type.innerHTML = '<h3>'+data1[i].house_type+'</h3>'
         link.appendChild(type)
         const detail = document.createElement("div");
         detail.className = "detail";
-        detail.innerHTML = '<h3>'+data[i].size+' | '+data[i].floor+'F</h3>'
+        detail.innerHTML = '<h3>'+data1[i].size+' | '+data1[i].floor+'F</h3>'
         link.appendChild(detail)
         const price = document.createElement("div");
         price.className = "price";
-        price.innerHTML = '<p>'+data[i].price+'元/月</p>';
+        price.innerHTML = '<p>'+data1[i].price+'元/月</p>';
         link.appendChild(price);
         const clear = document.createElement("div")
         clear.className = "clear"
@@ -172,32 +173,40 @@ function item(data){
         var recommendedProduct = document.getElementById("data");
         recommendedProduct.appendChild(div);
                     }
-}
-
-
-function change_paging(data){
-    var page = data.page;
+    var page = data.page
     console.log(page)
-    document.getElementById("上一頁1").addEventListener("click", function(){
-    console.log("click")
-    if(page==0){
-        search_ajax(0)
-        document.documentElement.scrollTop = 0;
-//        document.querySelector("#search").focus()
+    var previous_page = document.getElementById("previous_page")
+    previous_page.innerHTML = ''
+    if (page == 0){
+    previous_page.innerHTML = '<a id="上一頁1" class="page-link" onclick="page_control(2)">Previous</a>'
     }else{
-        search_ajax(page-1)
-//        document.querySelector("#search").focus()
-        document.documentElement.scrollTop = 0;
+    previous_page.innerHTML = '<a id="上一頁1" class="page-link" onclick="search_ajax('+(page-1)+')">Previous</a>'
     }
-    })
-    document.getElementById("下一頁1").addEventListener("click", function(){
-    console.log("click")
-    search_ajax(page+1)
-    document.documentElement.scrollTop = 0;
-//    document.querySelector("#search").focus()
-    })
-
+    var next_page = document.getElementById("next_page")
+    let total = data.total
+    console.log(total)
+    var limit_page = parseInt(total/15)
+    console.log("總頁"+limit_page)
+    if (page == limit_page){
+        next_page.innerHTML = ''
+        next_page.innerHTML = '<a id="下一頁1" class="page-link" onclick="page_control(1)">next</a>'
+    }else{
+        var next_page = document.getElementById("next_page")
+        next_page.innerHTML = ''
+        next_page.innerHTML = '<a id="下一頁1" class="page-link" onclick="search_ajax('+(page+1)+')">next</a>'
 }
+}
+
+
+function page_control(tag){
+    if(tag==1){
+        alert("這是最後一頁囉！！")
+    }else{
+        alert("這是第一頁囉！！")
+    }
+}
+
+
 
 
 function search_ajax(page){
@@ -212,10 +221,12 @@ function search_ajax(page){
     xmlhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200) {
             let data = this.response
-            console.log(data)
+            console.log("total_data="+data)
+            document.documentElement.scrollTop = 0;
             document.getElementById('data').innerHTML = ''
-            item(data["data"])
-            change_paging(data)
+            item(data)
+            document.getElementById('total').innerHTML = ''
+            document.getElementById('total').innerHTML = '<h1>為您找到 '+data["total"]+' 間適合的房子</h1>'
         };
     };
 

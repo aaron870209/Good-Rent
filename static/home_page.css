@@ -3,6 +3,17 @@
     float:left;
 }
 
+.city{
+    background:#c7ab6f;
+    border-radius: 0.25rem;
+}
+
+.city:hover{
+    background:#5b3f36;
+    color:white;
+    cursor:pointer;
+}
+
 .logo_name{
     float:left;
     margin-left:15px;
@@ -173,13 +184,13 @@
 }
 .position14{
     position:absolute;
-    margin-left:1210px;
-    margin-top:68px;
+    margin-left:168px;
+    margin-top:160px;
 }
 .position14_checkbox{
     position:absolute;
-    margin-left:1190px;
-    margin-top:75px;
+    margin-left:150px;
+    margin-top:166px;
 }
 .position15{
     position:absolute;
@@ -313,123 +324,123 @@
 }
 .position28{
     position:absolute;
-    margin-left:1210px;
-    margin-top:115px;
+    margin-left:250px;
+    margin-top:160px;
 }
 .position28_checkbox{
     position:absolute;
-    margin-left:1190px;
-    margin-top:123px;
+    margin-left:230px;
+    margin-top:166px;
 }
 .position29{
     position:absolute;
-    margin-left:1290px;
-    margin-top:115px;
+    margin-left:330px;
+    margin-top:160px;
 }
 .position29_checkbox{
     position:absolute;
-    margin-left:1270px;
-    margin-top:123px;
+    margin-left:310px;
+    margin-top:166px;
 }
 #type{
     position:absolute;
     margin-left:30px;
-    margin-top:150px;
+    margin-top:185px;
 }
 .type1{
     position:absolute;
     margin-left:168px;
-    margin-top:170px;
+    margin-top:203px;
 }
 .type1_checkbox{
     position:absolute;
     margin-left:150px;
-    margin-top:177px;
+    margin-top:210px;
 }
 .type2{
     position:absolute;
-    margin-left:300px;
-    margin-top:170px;
+    margin-left:330px;
+    margin-top:203px;
 }
 .type2_checkbox{
     position:absolute;
-    margin-left:280px;
-    margin-top:177px;
+    margin-left:310px;
+    margin-top:210px;
 }
 .type3{
     position:absolute;
-    margin-left:430px;
-    margin-top:170px;
+    margin-left:490px;
+    margin-top:203px;
 }
 .type3_checkbox{
     position:absolute;
-    margin-left:410px;
-    margin-top:177px;
+    margin-left:470px;
+    margin-top:210px;
 }
 .type4{
     position:absolute;
-    margin-left:560px;
-    margin-top:170px;
+    margin-left:650px;
+    margin-top:203px;
 }
 .type4_checkbox{
     position:absolute;
-    margin-left:540px;
-    margin-top:177px;
+    margin-left:630px;
+    margin-top:210px;
 }
 #rent{
     position:absolute;
     margin-left:30px;
-    margin-top:215px;
+    margin-top:235px;
 }
 .rent1{
     position:absolute;
     margin-left:168px;
-    margin-top:232px;
+    margin-top:251px;
 }
 .rent1_checkbox{
     position:absolute;
     margin-left:150px;
-    margin-top:240px;
+    margin-top:260px;
 }
 .rent2{
     position:absolute;
     margin-left:310px;
-    margin-top:232px;
+    margin-top:251px;
 }
 .rent2_checkbox{
     position:absolute;
     margin-left:290px;
-    margin-top:240px;
+    margin-top:260px;
 }
 .rent3{
     position:absolute;
     margin-left:490px;
-    margin-top:232px;
+    margin-top:251px;
 }
 .rent3_checkbox{
     position:absolute;
     margin-left:470px;
-    margin-top:240px;
+    margin-top:260px;
 }
 .rent4{
     position:absolute;
     margin-left:680px;
-    margin-top:232px;
+    margin-top:251px;
 }
 .rent4_checkbox{
     position:absolute;
     margin-left:660px;
-    margin-top:240px;
+    margin-top:260px;
 }
 .rent5{
     position:absolute;
     margin-left:880px;
-    margin-top:232px;
+    margin-top:251px;
 }
 .rent5_checkbox{
     position:absolute;
     margin-left:860px;
-    margin-top:240px;
+    margin-top:260px;
 }
 
 .create_div{
