@@ -48,4 +48,8 @@ def data_cleaning():
                 #     pass
 
 
-data_cleaning()
+if __name__ == "__main__":
+    start = time.perf_counter()
+    data_cleaning()
+    end = time.perf_counter()
+    print(end-start)
