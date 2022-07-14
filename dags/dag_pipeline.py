@@ -24,13 +24,12 @@ with DAG(
     start_date=pendulum.datetime(2021, 1, 1,tz="Asia/Taipei"),
     dagrun_timeout=datetime.timedelta(minutes=1440),
     catchup=False,
-    tags=['example'],
 ) as dag:
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     crawl_591 = BashOperator(
         task_id='crawl_591',
-        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 crawler_591.py',
+        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 -u crawler_591.py > 591.log',
         do_xcom_push=False,
         dag=dag
     )
@@ -38,7 +37,7 @@ with DAG(
     crawl_lewu = BashOperator(
         task_id='crawl_lewu',
         depends_on_past=False,
-        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 crawler_lewu.py',
+        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 -u crawler_lewu.py > lewu.log',
         do_xcom_push=False,
         dag=dag
     )
@@ -46,7 +45,7 @@ with DAG(
     data_cleaning = BashOperator(
         task_id='data_cleaning',
         depends_on_past=False,
-        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 data_pipeline.py',
+        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 -u data_pipeline.py > data_clean.log',
         do_xcom_push=False,
         dag=dag
     )
@@ -54,7 +53,7 @@ with DAG(
     crawl_lat_log = BashOperator(
         task_id='crawl_lat_log',
         depends_on_past=False,
-        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 crawl_log_lat.py',
+        bash_command='cd /home/kairong0209/Good-Rent/crawler && python3 -u crawl_log_lat.py',
         do_xcom_push=False,
         dag=dag
     )
@@ -62,7 +61,7 @@ with DAG(
     calculate_truck = BashOperator(
         task_id='calculate_truck',
         depends_on_past=False,
-        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 calculate_distance.py',
+        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 -u calculate_distance.py',
         do_xcom_push=False,
         dag=dag
     )
@@ -70,7 +69,7 @@ with DAG(
     calculate_school = BashOperator(
         task_id='calculate_school',
         depends_on_past=False,
-        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 calculate_school_distance.py',
+        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 -u calculate_school_distance.py',
         do_xcom_push=False,
         dag=dag
     )
