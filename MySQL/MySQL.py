@@ -285,3 +285,27 @@ def add_new_data_count(total_list):
         "INSERT INTO monitor (`date`,new_data_count) VALUES (%s,%s)",(str(today),count)
     )
     connection.commit()
+
+
+def login(email):
+    cursor.execute(
+        "SELECT `email`,`password` FROM `user` WHERE `email`=%s",(email)
+    )
+    user = cursor.fetchone()
+    email = user["email"]
+    password = user["password"]
+    return email,password
+
+
+def monitor_data(column,count,date):
+    cursor.execute(
+            f"INSERT INTO monitor (`date`,{column}) VALUES (%s,%s) ON DUPLICATE KEY UPDATE "
+            f"{column}=%s", (date, count,count)
+        )
+    connection.commit()
+
+def get_monitor_data():
+    cursor.execute(
+        "SELECT * FROM monitor"
+    )
+    return cursor.fetchall()
