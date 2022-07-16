@@ -22,7 +22,7 @@ def crawler(region):
     from datetime import date
     import time
     chrome_options = Options()
-    # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.binary_location = os.getenv('options_location')
     driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(), chrome_options=chrome_options)
     driver.get(f"https://www.rakuya.com.tw/search/rent_search/index?con={region}&upd=1")
