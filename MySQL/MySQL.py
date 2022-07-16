@@ -306,6 +306,6 @@ def monitor_data(column,count,date):
 
 def get_monitor_data():
     cursor.execute(
-        "SELECT * FROM monitor"
+        "SELECT * FROM monitor ORDER BY `date` DESC limit 0,10"
     )
     return cursor.fetchall()
