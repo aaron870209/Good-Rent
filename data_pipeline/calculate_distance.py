@@ -1,6 +1,7 @@
 from scipy.spatial import distance
 from MySQL import MySQL
 import time
+import os
 
 
 def calculate_distance():
@@ -28,6 +29,7 @@ def calculate_distance():
         MySQL.insert_distance_truck_house(tuple_list)
     MySQL.finish_update(id_list)
     print("Finished")
+    os._exit(0)
 
 
 if __name__ == "__main__":

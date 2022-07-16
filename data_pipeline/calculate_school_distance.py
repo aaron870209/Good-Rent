@@ -1,6 +1,7 @@
 from scipy.spatial import distance
 from MySQL import MySQL
 import time
+import os
 
 
 def calculate_distance():
@@ -25,6 +26,7 @@ def calculate_distance():
                 pass
         MySQL.insert_distance_school_house(tuple_list)
     print("Finished")
+    os._exit(0)
 
 
 if __name__ == "__main__":

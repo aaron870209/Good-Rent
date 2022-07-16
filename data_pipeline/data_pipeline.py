@@ -3,6 +3,7 @@ import time
 from datetime import date
 from mongo import mongo
 from MySQL import MySQL
+import os
 
 
 def data_cleaning():
@@ -46,9 +47,8 @@ def data_cleaning():
                 # try:
                 MySQL.insert_house_data_to_SQL(data_dict)
                 count += 1
-                # except IntegrityError:
-                #     print(title,city,address)
-                #     pass
+    os._exit(0)
+
 
 
 if __name__ == "__main__":
