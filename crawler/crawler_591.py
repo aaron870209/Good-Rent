@@ -14,11 +14,19 @@ load_dotenv()
 def crawler(region):
     from datetime import date
     import time
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    chrome_options.binary_location = os.getenv('options_location')
-    driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(),chrome_options=chrome_options)
-    driver.get(f"https://rent.591.com.tw/?region={region}")
+    try:
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.binary_location = os.getenv('options_location')
+        driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(),chrome_options=chrome_options)
+        driver.get(f"https://rent.591.com.tw/?region={region}")
+    except:
+        print("File is busy")
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.binary_location = os.getenv('options_location')
+        driver = webdriver.Chrome(ChromeDriverManager(version="104.0.5112.20").install(),chrome_options=chrome_options)
+        driver.get(f"https://rent.591.com.tw/?region={region}")
     total_house = WebDriverWait(driver,10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "switch-amount"))
     ).find_element(By.TAG_NAME, "span")
