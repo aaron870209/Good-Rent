@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect, send_file,send_from_directory
+from pymysql import ProgrammingError
+
 from MySQL import MySQL
 import folium
 import json
+from dotenv import load_dotenv
+import os
+load_dotenv()
 app = Flask(__name__)
 
 
@@ -111,6 +116,56 @@ def detail_page():
             return render_template("404.html")
         except ValueError:
             return render_template("404.html")
+
+@app.route('/admin_monitor')
+def log_in():
+    return render_template('login.html')
+
+
+@app.route('/admin_dashboard',methods=['GET','POST'])
+def dashboard():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    try:
+        result_email,result_password = MySQL.login(email)
+        if email == result_email and password == result_password:
+            return render_template("dashboard.html")
+        else:
+            return render_template("login.html",wrong=1)
+    except TypeError:
+        return render_template("login.html", wrong=1)
+    except ProgrammingError:
+        return render_template("login.html", wrong=2)
+
+
+@app.route('/dashboard_data',methods=["POST"])
+def monitor_data():
+    new_data = []
+    date = []
+    Taipei_591_list = []
+    New_Taipei_591_list = []
+    Taipei_lewu_list = []
+    New_Taipei_lewu_list = []
+    for data in MySQL.get_monitor_data():
+        if data["new_data_count"] == None:
+            count = 0
+            new_data.append(count)
+        else:
+            count = data["new_data_count"]
+            new_data.append(count)
+        day = data["date"]
+        date.append(day)
+        Taipei_591 = data["mongo_data_count_591_Taipei"]
+        New_Taipei_591 = data["mongo_data_count_591_NewTaipei"]
+        Taipei_lewu = data["mongo_data_count_lewu_Taipei"]
+        New_Taipei_lewu = data["mongo_data_count_lewu_NewTaipei"]
+        Taipei_591_list.append(Taipei_591)
+        New_Taipei_591_list.append(New_Taipei_591)
+        Taipei_lewu_list.append(Taipei_lewu)
+        New_Taipei_lewu_list.append(New_Taipei_lewu)
+    dict = {"new_data":new_data,"date":date,"Taipei_591":Taipei_591_list,"New_Taipei_591":New_Taipei_591_list,
+            "Taipei_lewu":Taipei_lewu_list,"New_Taipei_lewu":New_Taipei_lewu_list}
+    return dict
 
 
 if __name__ == '__main__':
