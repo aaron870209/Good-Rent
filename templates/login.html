@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link href="./static/login.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Mixins-->
+<!-- Pen Title-->
+<div class="pen-title">
+  <h1>Good-Rent</h1>
+</div>
+<div class="container">
+  <div class="card"></div>
+  <div class="card">
+    <h1 class="title">Login</h1>
+    <form action="/admin_dashboard" method="POST">
+      <div class="input-container">
+        <input type="text" id="email" name="email" required="required"/>
+        <label for="email">Email</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password" id="password" name="password" required="required"/>
+        <label for="password">Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container">
+        <button><span>Go</span></button>
+      </div>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
+<script>
+  if ({{wrong}}==1){
+    alert("錯誤的帳號密碼，請重新輸入")
+  }else if({{wrong}}==2){
+    alert("請先登入")
+  }
+</script>
