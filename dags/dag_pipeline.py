@@ -74,4 +74,12 @@ with DAG(
         dag=dag
     )
 
-    crawl_591 >> crawl_lewu >> data_cleaning >> crawl_lat_log >> [calculate_truck,calculate_school]
+    update_monitor = BashOperator(
+        task_id='update_monitor',
+        depends_on_past=False,
+        bash_command='cd /home/kairong0209/Good-Rent/data_pipeline && python3 -u monitor.py',
+        do_xcom_push=False,
+        dag=dag
+    )
+
+    crawl_591 >> crawl_lewu >> data_cleaning >> crawl_lat_log >> [calculate_truck,calculate_school] >> update_monitor
