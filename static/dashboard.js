@@ -6,24 +6,6 @@ let chart3Id = 'chart3';
 // CHART DATA
 // -----------------------------
 
-//let income = [
-//  500, 1000, 2500, 700, 3500, 600, 1000, 1000, 1000, 800, 3000, 4500, 5000,
-//];
-//let dates = [
-//  '01/07',
-//  '02/07',
-//  '03/07',
-//  '04/07',
-//  '05/07',
-//  '06/07',
-//  '07/07',
-//  '08/07',
-//  '09/07',
-//  '10/07',
-//  '11/07',
-//  '12/07',
-//  '13/07',
-//];
 
 // CHART CONFIG
 // -----------------------------
@@ -31,9 +13,9 @@ let chart3Id = 'chart3';
 
 // Chart 2
 function draw_realtime(data){
-    let sales = [[data.new_data[data.new_data.length - 1]], [data.Taipei_591[data.Taipei_591.length-1]],
-    [data.New_Taipei_591[data.New_Taipei_591.length-1]], [data.Taipei_lewu[data.Taipei_lewu.length-1]],
-    [data.New_Taipei_lewu[data.New_Taipei_lewu.length-1]]];
+    let sales = [[data.new_data[data.new_data.length-1]], [data.Taipei_591[0]],
+    [data.New_Taipei_591[0]], [data.Taipei_lewu[0]],
+    [data.New_Taipei_lewu[0]]];
     let chart2Data = {
       type: 'hbar',
       globals: {
@@ -70,11 +52,11 @@ function draw_realtime(data){
       },
       scaleX2: {
         values: [
-          sales[0],
-          sales[1],
-          sales[2],
-          sales[3],
           sales[4],
+          sales[3],
+          sales[2],
+          sales[1],
+          sales[0],
         ],
         lineWidth: '0px',
         tick: {
@@ -126,7 +108,7 @@ function draw_line(data){
       },
       backgroundColor: 'transparent',
       scaleX: {
-        labels: data.date,
+        labels: data.date.reverse(),
         tick: {
           visible: false,
         },
@@ -144,7 +126,7 @@ function draw_line(data){
       },
       series: [
         {
-          values: data.new_data,
+          values: data.new_data.reverse(),
           lineColor: 'var(--yellow)',
           lineWidth: '5px',
           marker: {
@@ -166,18 +148,6 @@ zingchart.render({
 });
 }
 
-// RENDER CHARTS
-// -----------------------------
-
-// Chart 1
-//zingchart.render({
-//  id: chart1Id,
-//  data: chart1Data,
-//  height: '300px',
-//  width: '100%',
-//});
-
-// Chart 2
 
 
 
