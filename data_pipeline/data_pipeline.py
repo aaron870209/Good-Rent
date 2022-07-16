@@ -47,8 +47,6 @@ def data_cleaning():
                 # try:
                 MySQL.insert_house_data_to_SQL(data_dict)
                 count += 1
-    os._exit(0)
-
 
 
 if __name__ == "__main__":
@@ -56,3 +54,5 @@ if __name__ == "__main__":
     data_cleaning()
     end = time.perf_counter()
     print(end-start)
+    print("Finished")
+    os._exit(0)
