@@ -121,3 +121,4 @@ def get_data_from_DB():
 if __name__ == "__main__":
     get_data_from_DB()
     print("Finished")
+    os._exit(0)
