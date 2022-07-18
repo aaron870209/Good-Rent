@@ -25,12 +25,16 @@ def data_cleaning():
                     floor = detail.split(" ")[3].split("F")[0]
                 else:
                     size = detail.split(" ")[1]
-                    floor = detail.split(" ")[2].split("F")[0]
+                    if size == "樓中樓":
+                        size = detail.split(" ")[2]
+                        floor = detail.split(" ")[3].split("F")[0]
+                    else:
+                        floor = detail.split(" ")[2].split("F")[0]
             else:
                 type = detail.split("/")[0]
-                tag = detail.split("/")[1].split("\n")[0]
-                size = detail.split("/")[2].split("\n")[0]
-                floor = detail.split("/")[2].split("\n")[1].split("樓")[0]
+                tag = detail.split("/")[1].split(" ")[0]
+                size = detail.split("/")[2].split(" ")[0]
+                floor = detail.split("/")[2].split(" ")[1].split("樓")[0]
             if type == "車位" or type == "其他":
                 pass
             else:
