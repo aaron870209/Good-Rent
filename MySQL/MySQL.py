@@ -23,9 +23,9 @@ def insert_house_data_to_SQL(dict):
     city_id = city_dict[dict["city"]]
     cursor.execute(
         "INSERT INTO `house` (`title`,`price`,`address`,`img`,`city_id`,`size`,`floor`,`type_id`,`key`,`url`,`tag`,`date`) VALUEs "
-        "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE `url`=%s,`tag`=%s,`date`=%s,img=%s",
+        "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE `url`=%s,`tag`=%s,`date`=%s,img=%s,title=%s",
         (dict["title"],dict["price"],dict["address"],dict["img"],city_id,dict["size"],dict["floor"],
-         type_id,dict["key"],dict["url"],dict["tag"],dict["date"],dict["url"],dict["tag"],dict["date"],dict["img"])
+         type_id,dict["key"],dict["url"],dict["tag"],dict["date"],dict["url"],dict["tag"],dict["date"],dict["img"],dict["title"])
     )
     connection.commit()
 
