@@ -15,3 +15,4 @@ house.jpg
 591.log
 lewu.log
 data_clean.log
+.pytest_cache/
