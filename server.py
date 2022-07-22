@@ -5,7 +5,6 @@ from MySQL import MySQL
 import folium
 import json
 from dotenv import load_dotenv
-import os
 load_dotenv()
 app = Flask(__name__)
 
@@ -54,7 +53,11 @@ def home_page(paging=0,tag=0):
 def search_page():
     tag = json.loads(request.data)
     print(tag)
-    data,total = MySQL.search_house(tag["data"], tag["page"])
+    try:
+        test_mode = tag["test"]
+    except KeyError:
+        test_mode = 0
+    data,total = MySQL.search_house(tag["data"], tag["page"],test_mode)
     total = total["count(*)"]
     dict = {"data": data, "page": tag["page"],"total":total}
     return dict
