@@ -36,7 +36,7 @@ def data_cleaning():
                 size = detail.split("/")[2].split(" ")[0]
                 floor = detail.split("/")[2].split(" ")[1].split("樓")[0]
             if type == "車位" or type == "其他":
-                pass
+                data_dict = None
             else:
                 if "萬" in data["price"][length]:
                     price = int(float(data["price"][length].replace("萬", "").replace("元","").replace(",",''))*10000)
@@ -51,6 +51,7 @@ def data_cleaning():
                 # try:
                 MySQL.insert_house_data_to_SQL(data_dict)
                 count += 1
+    return data_dict
 
 
 if __name__ == "__main__":
