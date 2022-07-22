@@ -120,8 +120,12 @@ def get_house_detail_by_id(id):
     return detail
 
 
-def search_house(tag,page):
+def search_house(tag,page,test):
     connection.ping(reconnect=True)
+    if test == 1:
+        database = "test."
+    elif test == 0:
+        database = ""
     taipei = tag["taipei"]
     print("taipei=",taipei)
     new_taipei = tag["new_taipei"]
@@ -180,13 +184,13 @@ def search_house(tag,page):
     print("rent",rent)
     paging = page*15
     cursor.execute(
-        "SELECT count(*) FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
+        f"SELECT count(*) FROM {database}`house` INNER JOIN {database}`city` ON house.city_id = city.city_id INNER JOIN {database}type ON house.type_id = type.type_id"
         f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}'"
     )
     total = cursor.fetchone()
     connection.commit()
     cursor.execute(
-        "SELECT * FROM `house` INNER JOIN `city` ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id"
+        f"SELECT * FROM {database}`house` INNER JOIN {database}`city` ON house.city_id = city.city_id INNER JOIN {database}type ON house.type_id = type.type_id"
         f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}' LIMIT {paging},15"
     )
     data = cursor.fetchall()
