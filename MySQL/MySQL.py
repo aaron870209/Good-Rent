@@ -4,8 +4,6 @@ from datetime import date
 import os
 import datetime
 load_dotenv()
-
-
 pool = Pool(host=os.getenv("host"), user=os.getenv("user"), password=os.getenv("password"), db=os.getenv("database"),
             charset='utf8mb4')
 pool.init()
@@ -141,6 +139,16 @@ def get_house_detail_by_id(id):
 
 def search_house(tag,page,test):
     connection.ping(reconnect=True)
+    from datetime import date
+    import datetime
+    standard_clock = " 07:00:00"
+    today = date.today()
+    yesterday = today - datetime.timedelta(days=1)
+    standard_time = datetime.datetime.strptime(str(today) + standard_clock, "%Y-%m-%d %H:%M:%S")
+    if datetime.datetime.now() >= standard_time:
+        now_date = today
+    else:
+        now_date = yesterday
     if test == 1:
         database = "test."
     elif test == 0:
@@ -204,13 +212,13 @@ def search_house(tag,page,test):
     paging = page*15
     cursor.execute(
         f"SELECT count(*) FROM {database}`house` INNER JOIN {database}`city` ON house.city_id = city.city_id INNER JOIN {database}type ON house.type_id = type.type_id"
-        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}'"
+        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(now_date)}' AND `update` = 1"
     )
     total = cursor.fetchone()
     connection.commit()
     cursor.execute(
         f"SELECT * FROM {database}`house` INNER JOIN {database}`city` ON house.city_id = city.city_id INNER JOIN {database}type ON house.type_id = type.type_id"
-        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(yesterday)}' LIMIT {paging},15"
+        f" WHERE 1=1{region}{type}{rent} and url IS NOT NULL and date='{str(now_date)}' AND `update` = 1 LIMIT {paging},15"
     )
     data = cursor.fetchall()
     return data,total
