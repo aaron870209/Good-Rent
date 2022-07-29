@@ -1,5 +1,5 @@
 
-## [Good Rent](https://good-rent.com/)
+# [Good Rent](https://good-rent.com/)
 
 A rental housing web that provides information of top three nearest school and dumpster locations based on the district of searching items.
 ![alt text](https://i.imgur.com/YV5PBYJ.png)
@@ -9,7 +9,7 @@ A rental housing web that provides information of top three nearest school and d
 ## Table of Contents
 * [Data Pipeline](##Data-Pipeline)
 * [MySQL Schema](##MySQL-Schema)
-* [Server Structure](Server-Structure)
+* [Server Structure](##Server-Structure)
 * [Features](##Features)
 * [Technologies](##Technologies)
 
