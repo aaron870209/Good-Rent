@@ -31,13 +31,14 @@ For better resolution, please click [here](https://i.imgur.com/FZm3ykF.png)
 
 ## Features
 #### Filter searching
-![](https://i.imgur.com/PeGbPEN.gif)
+![GIF](https://i.imgur.com/Ny04fHi.gif)
 #### Filter recommendation system
-![](https://i.imgur.com/YRQvrK8.gif)
+![GIF](https://i.imgur.com/h5JBeM8.gif)
 #### nearest dumpster and school in detail page
 ![](https://i.imgur.com/b2xZl1l.gif)
 #### link to 591 or 樂屋網
 ![](https://i.imgur.com/49CXrEQ.gif)
+
 #### Data Pipeline Dashboard
 [monitor](https://good-rent.com/admin_monitor) \
 account : admin@gmail.com \
