@@ -30,14 +30,15 @@ For better resolution, please click [here](https://i.imgur.com/FZm3ykF.png)
 ![alt text](https://i.imgur.com/Uofw15D.png)
 
 ## Features
-#### Filter searching
-![](https://i.imgur.com/sS4X8sV.gif)
-#### Filter recommendation system
-![](https://i.imgur.com/MsEbQUs.gif)
+
 #### nearest dumpster and school in detail page
 ![](https://i.imgur.com/b2xZl1l.gif)
 #### link to 591 or 樂屋網
 ![](https://i.imgur.com/49CXrEQ.gif)
+#### Filter searching
+![GIF](https://i.imgur.com/sS4X8sV.gif)
+#### Filter recommendation system
+![GIF](https://i.imgur.com/MsEbQUs.gif)
 #### Data Pipeline Dashboard
 [monitor](https://good-rent.com/admin_monitor) \
 account : admin@gmail.com \
