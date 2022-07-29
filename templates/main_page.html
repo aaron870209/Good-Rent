@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoodRent</title>
+    <link href="./static/main_page.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./static/favicon.ico" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+</head>
+<body>
+<header>
+    <div class="logo_img">
+        <a href="./">
+            <img src="./static/logo.png" style="width:85x;height:70px;">
+        </a>
+    </div>
+    <div class="logo_name">
+        <a href="./" style="color:black;">
+            <h1>GoodRent</h1>
+        </a>
+    </div>
+    <hr class="downer_line">
+</header>
+
+
+    <div id="map">{{map|safe}}</div>
+    <div class="card" style="width: 25rem;">
+        <img class="card-img-top" src="{{detail.img}}" alt="Card image cap">
+        <div class="card-body">
+            <h3 class="card-title">{{detail.title}}</h3>
+            <img src="https://img.onl/GgIypP" class="spot"><p id="detail_address" class="spot">{{detail.address}}</p>
+            <a href="{{detail.url}}" class="btn btn-primary">租屋去</a>
+            <h4 class="card-text">房屋類型：{{detail.house_type}}</h4>
+            <h4 class="card-text">樓層：{{detail.floor}}F | 電梯：{{elevator}}</h4>
+            <h4 class="card-text">坪數：{{detail.size}}</h4>
+            <h4 class="card-text">租金：{{detail.price}}元/月</h4>
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./static/main_page.js"></script>
+</body>
+</html>
