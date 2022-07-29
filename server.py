@@ -52,7 +52,6 @@ def home_page(paging=0,tag=0):
 @app.route("/search", methods=['POST'])
 def search_page():
     tag = json.loads(request.data)
-    print(tag)
     try:
         test_mode = tag["test"]
     except KeyError:
@@ -74,11 +73,9 @@ def detail_page():
             detail = MySQL.get_house_detail_by_id(int(id))
             truck_position = MySQL.get_truck_house_distance(id)
             school_position = MySQL.get_school_house_distance(id)
-            print(truck_position)
             truck_position_list = []
             print(truck_position_list)
             m = folium.Map(location=[detail["latitude"],detail["longitude"]],zoom_start=16)
-            print(detail["title"])
             iframe = folium.IFrame(f'<b>{detail["title"]}</b>')
             popup = folium.Popup(iframe, min_width=300,max_width=300,min_height=40,max_height=80)
             m.add_child(folium.Marker(location=[detail["latitude"],detail["longitude"]],popup=popup,
@@ -91,7 +88,6 @@ def detail_page():
                 list = [latitude,longitude]
                 m.add_child(folium.Marker(location=list, opacity=0.8,
                                           icon=folium.Icon(icon='truck', color='blue', prefix='fa')))
-            print(detail["house_type"])
             if detail["house_type"] == "整層住家":
                 show_school = True
             else:
