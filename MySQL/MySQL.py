@@ -63,7 +63,7 @@ def get_all_info_from_house(paging):
     connection.ping(reconnect=True)
     from datetime import date
     import datetime
-    standard_clock = " 09:00:00"
+    standard_clock = " 07:00:00"
     today = date.today()
     yesterday = today - datetime.timedelta(days=1)
     standard_time = datetime.datetime.strptime(str(today)+standard_clock,"%Y-%m-%d %H:%M:%S")
@@ -72,12 +72,12 @@ def get_all_info_from_house(paging):
     else:
         now_date = yesterday
     cursor.execute(
-        f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(now_date)}'"
+        f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(now_date)}' AND `update` = 1"
     )
     total = cursor.fetchone()
     connection.commit()
     cursor.execute(
-        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(now_date)}' LIMIT {int(paging)*15},15"
+        f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL AND date='{str(now_date)}' AND `update` = 1 LIMIT {int(paging)*15},15"
     )
     data_list = cursor.fetchall()
     return data_list,total
@@ -87,7 +87,7 @@ def get_filter_info_from_house(paging, tag):
     connection.ping(reconnect=True)
     from datetime import date
     import datetime
-    standard_clock = " 09:00:00"
+    standard_clock = " 07:00:00"
     today = date.today()
     yesterday = today - datetime.timedelta(days=1)
     standard_time = datetime.datetime.strptime(str(today)+standard_clock,"%Y-%m-%d %H:%M:%S")
@@ -97,34 +97,34 @@ def get_filter_info_from_house(paging, tag):
         now_date = yesterday
     if tag == 1:
         cursor.execute(
-            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(now_date)}'"
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(now_date)}' AND `update` = 1"
         )
         total = cursor.fetchone()
         connection.commit()
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(now_date)}' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (floor < 4 OR tag like '%電梯%') and floor NOT LIKE '%頂樓加蓋%' and date='{str(now_date)}' AND `update` = 1 LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list,total
     elif tag == 2:
         cursor.execute(
-            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(now_date)}'"
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(now_date)}' AND `update` = 1"
         )
         total = cursor.fetchone()
         connection.commit()
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(now_date)}' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and (house_type = '雅房' OR house_type = '分租套房') and date='{str(now_date)}' AND `update` = 1 LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list,total
     elif tag == 3:
         cursor.execute(
-            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(now_date)}'"
+            f"SELECT count(*) FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(now_date)}' AND `update` = 1"
         )
         total = cursor.fetchone()
         connection.commit()
         cursor.execute(
-            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(now_date)}' LIMIT {int(paging)*15},15"
+            f"SELECT * FROM house INNER JOIN city ON house.city_id = city.city_id INNER JOIN type ON house.type_id = type.type_id WHERE url IS NOT NULL and house_type='整層住家' and date='{str(now_date)}' AND `update` = 1 LIMIT {int(paging)*15},15"
         )
         data_list = cursor.fetchall()
         return data_list,total
