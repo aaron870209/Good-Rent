@@ -1,4 +1,3 @@
-from pymysql import IntegrityError
 import time
 from datetime import date
 from mongo import mongo
@@ -23,6 +22,8 @@ def data_cleaning():
                 if type == "整層住家":
                     size = detail.split(" ")[2]
                     floor = detail.split(" ")[3].split("F")[0]
+                elif type == "車位" or type =="其他":
+                    pass
                 else:
                     size = detail.split(" ")[1]
                     if size == "樓中樓":
@@ -48,7 +49,6 @@ def data_cleaning():
                 key = address+type+size+floor
                 data_dict = {"title": title,"price":price,"address":address,"img":img,
                              "type":type,"size":size,"floor":floor,"key":key,"city":city,"tag":tag,"url":url,"date":today}
-                # try:
                 MySQL.insert_house_data_to_SQL(data_dict)
                 count += 1
     return data_dict
