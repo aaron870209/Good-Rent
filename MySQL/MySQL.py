@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from pymysqlpool.pool import Pool
 from datetime import date
 import os
-import datetime
 load_dotenv()
 pool = Pool(host=os.getenv("host"), user=os.getenv("user"), password=os.getenv("password"), db=os.getenv("database"),
             charset='utf8mb4')
@@ -50,9 +49,6 @@ def get_house_id():
     cursor.execute(
         "SELECT house_id,address,city_id FROM house WHERE longitude IS NULL"
     )
-    # cursor.execute(
-    #     "SELECT house_id,address,city_id FROM house WHERE house_id > 3934"
-    # )
     house_list = cursor.fetchall()
     return house_list
 
