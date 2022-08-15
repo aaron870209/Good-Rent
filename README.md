@@ -7,11 +7,11 @@ A rental housing web that provides information of top three nearest school and d
 #### website : [https://good-rent.com/](https://good-rent.com/)
 
 ## Table of Contents
-* [Data Pipeline](##Data-Pipeline)
-* [MySQL Schema](##MySQL-Schema)
-* [Server Structure](##Server-Structure)
-* [Features](##Features)
-* [Technologies](##Technologies)
+* [Data Pipeline](#Data-Pipeline)
+* [MySQL Schema](#MySQL-Schema)
+* [Server Structure](#Server-Structure)
+* [Features](#Features)
+* [Technologies](#Technologies)
 
 ## Data Pipeline
 ![alt text](https://i.imgur.com/6AN9mIm.png)
